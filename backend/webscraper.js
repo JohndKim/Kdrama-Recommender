@@ -1,3 +1,10 @@
+/**
+ * Scrapes the website for the titles of the kdrama
+ *
+ * @author Kayak
+ * @version 1.0
+ */
+
 const axios = require('axios'); // HTTP request library
 const cheerio = require('cheerio'); // web scraping library
 
@@ -11,10 +18,9 @@ const getTitles = async () => {
 
     const titles = [];
 
-    // 'div > p.title > a' gets all the posts (?)
-    $('div > p.title > a').each((_idx, el) => {
+    $('div > div.col-xs-9.row-cell.content > h6 > a:nth-child(1)').each((_idx, el) => {
       const title = $(el).text(); // el = current element
-      title.push(title);
+      titles.push(title);
     });
 
     return titles;
