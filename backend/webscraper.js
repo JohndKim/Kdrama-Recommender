@@ -2,15 +2,19 @@
  * Scrapes the website for the titles of the kdrama
  *
  * @author Kayak
+ * @author Prof.K
  * @version 1.0
  */
 
 const axios = require('axios'); // HTTP request library
 const cheerio = require('cheerio'); // web scraping library
 
+
+const myDramaListLink = 'https://mydramalist.com/search?adv=titles&ty=68&co=3&st=3&so=top'
+
 const getTitles = async () => {
   try {
-    const response = await axios.get('https://mydramalist.com/search?adv=titles&ty=68&co=3&st=3&so=top'); // makes an HTTP get request
+    const response = await axios.get(myDramaListLink); // makes an HTTP get request
 
     const html = response.data;
 
