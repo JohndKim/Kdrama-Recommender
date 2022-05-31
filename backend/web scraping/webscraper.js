@@ -2,11 +2,13 @@
  * Scrapes the website for the titles of the kdrama
  *
  * @author Kayak
+ * @author Prof.K
  * @version 1.0
  */
 
 const axios = require('axios'); // HTTP request library
 const cheerio = require('cheerio'); // web scraping library
+const URL = 'https://mydramalist.com/search?adv=titles&ty=68&co=3&st=3&so=top&page=1'; // kdrama site url
 const kdramaSites = []; // a list of all kdrama sites (ranks in ascending order, e.g. 1 -> 10)
 
 /**
@@ -90,4 +92,4 @@ const getAllURLs = async (URL) => {
   return getAllURLs(updatePageURL(URL));
 };
 
-console.log(getAllURLs('https://mydramalist.com/search?adv=titles&ty=68&co=3&st=3&so=top&page=1'));
+console.log(getAllURLs(URL));
