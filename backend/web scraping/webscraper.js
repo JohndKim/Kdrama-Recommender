@@ -18,31 +18,31 @@ const kdramaSites = []; // a list of all kdrama sites (ranks in ascending order,
  * @returns
  */
 function updatePageURL(URL) {
-  const regexThreeDigits = new RegExp('\\d{3}'); // regex for three digits
-  const regexTwoDigits = new RegExp('\\d{2}'); // regex for two digits
-  const regexOneDigit = new RegExp('\\d{1}'); // regex for one digit
+    const regexThreeDigits = new RegExp('\\d{3}'); // regex for three digits
+    const regexTwoDigits = new RegExp('\\d{2}'); // regex for two digits
+    const regexOneDigit = new RegExp('\\d{1}'); // regex for one digit
 
-  var threeDigits = URL.slice(URL.length - 3); // three digit page num
-  var twoDigits = URL.slice(URL.length - 2); // two digit page num
-  var oneDigit = URL.slice(URL.length - 1); // one digit page num
+    var threeDigits = URL.slice(URL.length - 3); // three digit page num
+    var twoDigits = URL.slice(URL.length - 2); // two digit page num
+    var oneDigit = URL.slice(URL.length - 1); // one digit page num
 
-  // 100-999 case
-  if (regexThreeDigits.test(threeDigits)) {
-    threeDigits++;
-    return URL.slice(0, URL.length - 3) + threeDigits;
-  }
+    // 100-999 case
+    if (regexThreeDigits.test(threeDigits)) {
+        threeDigits++;
+        return URL.slice(0, URL.length - 3) + threeDigits;
+    }
 
-  // 10-99 case
-  if (regexTwoDigits.test(twoDigits)) {
-    twoDigits++;
-    return URL.slice(0, URL.length - 2) + twoDigits;
-  }
+    // 10-99 case
+    if (regexTwoDigits.test(twoDigits)) {
+        twoDigits++;
+        return URL.slice(0, URL.length - 2) + twoDigits;
+    }
 
-  // 1-9 case
-  if (regexOneDigit.test(oneDigit)) {
-    oneDigit++;
-    return URL.slice(0, URL.length - 1) + oneDigit;
-  }
+    // 1-9 case
+    if (regexOneDigit.test(oneDigit)) {
+        oneDigit++;
+        return URL.slice(0, URL.length - 1) + oneDigit;
+    }
 }
 
 /**
@@ -52,23 +52,24 @@ function updatePageURL(URL) {
  * @returns all kdrama sites on a page (20)
  */
 const getKdramaSites = async (URL) => {
-  try {
-    const response = await axios.get(URL); // makes an HTTP get request to kdrama site
+    try {
+        const response = await axios.get(URL); // makes an HTTP get request to kdrama site
 
-    const html = response.data;
+        const html = response.data;
 
-    const $ = cheerio.load(html); // result of request loaded here
+        const $ = cheerio.load(html); // result of request loaded here
 
-    // searches for elements with this jquery selector and takes the text and pushes it into 'kdramaSites'
-    $('div > div.col-xs-9.row-cell.content > h6 > a:nth-child(1)').each((_idx, el) => {
-      const kdramaSite = 'https://mydramalist.com' + $(el).attr('href'); // gets link
-      kdramaSites.push(kdramaSite); // adds to kdrama list
-    });
+        // searches for elements with this jquery selector and takes the text and pushes it into 'kdramaSites'
+        $('div > div.col-xs-9.row-cell.content > h6 > a:nth-child(1)').each((_idx, el) => {
+            const kdramaSite = 'https://mydramalist.com' + $(el).attr('href'); // gets link
+            kdramaSites.push(kdramaSite); // adds to kdrama list
+        });
 
-    return kdramaSites;
-  } catch (error) {
-    throw error;
-  }
+        return kdramaSites;
+    } catch (error) {
+        throw error;
+    }
+    
 };
 
 /**
@@ -78,18 +79,20 @@ const getKdramaSites = async (URL) => {
  * @returns nothing
  */
 const getAllURLs = async (URL) => {
-  const resultBefore = kdramaSites.length; // length of list BEFORE adding
-  const result = await getKdramaSites(URL, kdramaSites); // length of list AFTER adding
-  const addedDramas = result.length - resultBefore; // difference between the two (should be 20)
+    const resultBefore = kdramaSites.length; // length of list BEFORE adding
+    const result = await getKdramaSites(URL, kdramaSites); // length of list AFTER adding
+    const addedDramas = result.length - resultBefore; // difference between the two (should be 20)
 
-  // this only happens when it reaches the end of all kdramas on mydramalist
-  if (addedDramas != 20) {
-    console.log(kdramaSites);
-    return;
-  }
+    // this only happens when it reaches the end of all kdramas on mydramalist
+    if (addedDramas != 20) {
+        console.log(kdramaSites);
+        return;
+    }
 
-  // recursively calls this to continue adding to the list
-  return getAllURLs(updatePageURL(URL));
+
+    // recursively calls this to continue adding to the list
+    return getAllURLs(updatePageURL(URL));
+
 };
 
 console.log(getAllURLs(URL));
