@@ -85,7 +85,7 @@ const getAllURLs = async (URL) => {
   // this only happens when it reaches the end of all kdramas on mydramalist
   if (addedDramas != 20) {
     console.log(kdramaSites);
-    return kdramaSites;
+    return;
   }
 
   // recursively calls this to continue adding to the list
