@@ -1,18 +1,13 @@
-import csv
+import requests
+from bs4 import BeautifulSoup
 import re
+import csv
 from time import sleep
 import math
 import colorama
 
-<<<<<<< HEAD
 url_completed = "https://mydramalist.com/search?adv=titles&ty=68&co=3&st=3&so=top&page=1"  # kdrama site url 161
 url_ongoing = "https://mydramalist.com/search?adv=titles&ty=68&co=3&st=1&so=top&page=1" # 1
-=======
-import requests
-from bs4 import BeautifulSoup
-
-url = "https://mydramalist.com/search?adv=titles&ty=68&co=3&so=top&page=1"  # kdrama site url
->>>>>>> d54d88670100fb914a2fb85cb4ef13397dbbc7d3
 links = []  # links of all kdrama
 
 """Checks regex
