@@ -23,6 +23,7 @@ def check_regex(regex, page_num):
 def update_link(url):
     """Updates link to the next page url
     """
+    
     # PN = page number
     three_digit_pin = url[-3:]
     regex_three_digit = "\\d{3}"
