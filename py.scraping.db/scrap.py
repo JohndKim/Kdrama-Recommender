@@ -3,8 +3,11 @@ from bs4 import BeautifulSoup
 import re
 import csv
 from time import sleep
+import math
+import colorama
 
-url = "https://mydramalist.com/search?adv=titles&ty=68&co=3&st=3&so=top&page=1"  # kdrama site url
+url_completed = "https://mydramalist.com/search?adv=titles&ty=68&co=3&st=3&so=top&page=1"  # kdrama site url 161
+url_ongoing = "https://mydramalist.com/search?adv=titles&ty=68&co=3&st=1&so=top&page=1" # 1
 links = []  # links of all kdrama
 
 """Checks regex
@@ -55,7 +58,7 @@ def add_links(url):
     )  # list of all items with this selector
 
     for site in kdrama_sites:
-        print(site)
+        #print(site)
         links.append("https://mydramalist.com" + site.get("href"))
 
     sleep(1) #just to make sure to not overflow with requests
@@ -64,7 +67,7 @@ def add_links(url):
     """
 
 
-def add_all_links(url):
+def add_all_links(url, progress, total):
     """_summary_
 
     Args:
@@ -74,40 +77,39 @@ def add_all_links(url):
     add_links(url)
     after_url = links[-1]
 
+    progress_bar(progress + 1, total)
     # last page
     if before_url == after_url:
         return
-
-    add_all_links(update_link(url))
-
-
-# def addAllLinks(url, pageNum):
-#     if (pageNum == 5): return
-
-#     print(len(links))
-
-#     pageNum += 1
-#     addLinks(url)
-
-#     print(len(links))
-#     addAllLinks(updateLink(url), pageNum)
+    
+    add_all_links(update_link(url), progress + 1, total)
 
 
-# addLinks("https://mydramalist.com/search?adv=titles&ty=68&co=3&st=3&so=top&page=202")
-
-# print(updateLink(url))
-
-add_links(url)
-add_all_links(update_link(url))
 
 
-# print(len(links))
-# addLinks(url)
-# print(updateLink(url))
-# print(len(links))
-# addLinks(updateLink(url))
+def progress_bar(progress, total, color=colorama.Fore.YELLOW):
+    percent = 100 * (progress / float(total))
+    bar = ' ' * int(percent) + "-" * (100 - int(percent))
+    print(color + f"\r|{bar}| {percent:.2f}%", end="\r")
+    if progress == total:
+        print(colorama.Fore.GREEN + f"\r|{bar}| {percent:.2f}%", end="\r")
 
-# print(links)
+print("starting with ongoing:")
+
+
+add_links(url_ongoing)
+
+
+print(colorama.Fore.RED + "ongoing done!")
+print(colorama.Fore.RESET + "moving on to completed:")
+
+progress_bar(0, 1)
+add_links(url_completed)
+add_all_links(update_link(url_completed), 0, 161)
+
+print(colorama.Fore.RED + "completed done!")
+print(colorama.Fore.RESET + "moving on to creating csv file:")
+
 
 filename = "csv\shows.csv"
 
@@ -117,3 +119,9 @@ with open(filename, "w", newline="") as file:
     writer.writerow(["link"])
     for link in links:
         writer.writerow([link])
+        
+        
+
+print(colorama.Fore.RED + "done!")
+print(colorama.Fore.RESET)
+
