@@ -150,7 +150,11 @@ dist
 
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
+
+#weird ass vscode folder 
 .vscode
+
+#ok
 
 # yarn v2
 .yarn/cache
