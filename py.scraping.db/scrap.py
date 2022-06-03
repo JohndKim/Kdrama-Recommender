@@ -1,10 +1,11 @@
-import requests
-from bs4 import BeautifulSoup
-import re
 import csv
+import re
 from time import sleep
 
-url = "https://mydramalist.com/search?adv=titles&ty=68&co=3&st=3&so=top&page=1"  # kdrama site url
+import requests
+from bs4 import BeautifulSoup
+
+url = "https://mydramalist.com/search?adv=titles&ty=68&co=3&so=top&page=1"  # kdrama site url
 links = []  # links of all kdrama
 
 """Checks regex
