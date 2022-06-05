@@ -58,7 +58,6 @@ def run():
     
 def get_data(link):
     """gets the details and statistics section from the link
-
     Args:
         link (string): link to mydramalist show
     """
@@ -81,11 +80,9 @@ def get_data(link):
     
 def replace_item(detail, label):
     """removes the label from the detail
-
     Args:
         detail (_type_): detail to remove label from
         label (_type_): label to remove
-
     Returns:
         _type_: detail
     """
@@ -98,7 +95,6 @@ def replace_item(detail, label):
 # to find what detail is which T-T (i thought that they'd all be the same number of details but i guess not)
 def process_details(details):
     """processes the details of the kdrama and adds it to their respective array
-
     Args:
         details (_type_): list of details to process
     """
@@ -112,7 +108,6 @@ def process_details(details):
 
 def process_stats(stats):
     """processes the stats of the kdrama and adds it to their respective array."
-
     Args:
         stats (_type_): list of stats to process
     """
