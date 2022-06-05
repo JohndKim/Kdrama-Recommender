@@ -6,6 +6,7 @@ from time import sleep
 import math
 import colorama
 
+link_prefix = "https://mydramalist.com"
 url_completed = "https://mydramalist.com/search?adv=titles&ty=68&co=3&st=3&so=top&page=1"  # kdrama site url 161
 url_ongoing = "https://mydramalist.com/search?adv=titles&ty=68&co=3&st=1&so=top&page=1" # 1
 links = []  # links of all kdrama
@@ -27,7 +28,7 @@ def update_link(url):
     """Updates link to the next page url
     """
     
-    # PN = page number
+    # pin = page number
     three_digit_pin = url[-3:]
     regex_three_digit = "\\d{3}"
     two_digit_pin = url[-2:]
@@ -59,7 +60,7 @@ def add_links(url):
 
     for site in kdrama_sites:
         #print(site)
-        links.append("https://mydramalist.com" + site.get("href"))
+        links.append(link_prefix + site.get("href"))
 
     sleep(1) #just to make sure to not overflow with requests
     
