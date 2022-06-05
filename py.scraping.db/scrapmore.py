@@ -106,6 +106,11 @@ def process_details(details):
     duration.append(replace_item(details[6], duration_label))
     content_rating.append(replace_item(details[7], content_rating_label))
 
+def get_details(details):
+    for detail in details:
+        if (detail)
+
+
 def process_stats(stats):
     """processes the stats of the kdrama and adds it to their respective array."
     Args:
@@ -148,4 +153,90 @@ def create_csv_file():
         writer.writerows(kdata) # basically add the entire 2d array in one go
 
 
+<<<<<<< HEAD
 get_data("https://mydramalist.com/49231-move-to-heaven")
+=======
+get_data("https://mydramalist.com/49231-move-to-heaven")
+
+
+# an array OF array with dictionaries
+dict_row = {
+    "link": "N/A",
+    "rank": "N/A",
+    "title": "N/A",
+    "country": "N/A",
+    "ep": "N/A",
+    "aired": "N/A",
+    "network": "N/A",
+    "duration": "N/A",
+    "content_rating": "N/A",
+    "score": "N/A",
+    "num_scored_by": "N/A",
+    "num_watcher": "N/A"
+}
+
+import json
+
+def keys_exists(element, *keys):
+    '''
+    Check if *keys (nested) exists in `element` (dict).
+    '''
+    if not isinstance(element, dict):
+        raise AttributeError('keys_exists() expects dict as first argument.')
+    if len(keys) == 0:
+        raise AttributeError('keys_exists() expects at least two arguments, one given.')
+
+    _element = element
+    for key in keys:
+        try:
+            _element = _element[key]
+        except KeyError:
+            return False
+    return True
+
+
+def get_json():
+    for link in testLinks:
+        global rank_num
+        row = dict_row
+
+        response = requests.get(link)
+        soup = BeautifulSoup(response.text, "html.parser")
+        # this is the json file with ALL info
+        data = json.loads(soup.find('script', type='application/ld+json').text)
+        # print(data)
+
+
+        row['title'] = data.get('name')
+        print(row['title'])
+        row['country'] = data.get(['countryOfOrigin']['name'])
+
+        # print(data['countryOfOrigin']['name'])
+
+        # if ['countryOfOrigin']['name'] in data:
+        #     print("yes")
+        
+        # row['link'] = link
+        # row['rank'] = rank_num
+        # rank_num += 1
+
+
+
+        # if 'name' in data: 
+        #     row['title'] = data['name']
+
+        # if data.has_key('countryOfOrigin'['name']):
+        #     print(data['countryOfOrigin'['name']])
+
+        # episode
+
+        # aired
+
+        kdata.append(row)
+        
+
+# row = [link, rank, title, country, ep, aired, network,
+# duration, content_rating, scores, scored_by, watchers]
+        
+get_json()
+>>>>>>> 399c014d099f085382f475ec784a01234cc135ac
