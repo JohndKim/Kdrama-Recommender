@@ -58,6 +58,7 @@ def run():
     
 def get_data(link):
     """gets the details and statistics section from the link
+
     Args:
         link (string): link to mydramalist show
     """
@@ -80,9 +81,11 @@ def get_data(link):
     
 def replace_item(detail, label):
     """removes the label from the detail
+
     Args:
         detail (_type_): detail to remove label from
         label (_type_): label to remove
+
     Returns:
         _type_: detail
     """
@@ -95,6 +98,7 @@ def replace_item(detail, label):
 # to find what detail is which T-T (i thought that they'd all be the same number of details but i guess not)
 def process_details(details):
     """processes the details of the kdrama and adds it to their respective array
+
     Args:
         details (_type_): list of details to process
     """
@@ -108,11 +112,13 @@ def process_details(details):
 
 def get_details(details):
     for detail in details:
-        if (detail)
+        if (detail):
+            pass
 
 
 def process_stats(stats):
     """processes the stats of the kdrama and adds it to their respective array."
+
     Args:
         stats (_type_): list of stats to process
     """
@@ -153,9 +159,9 @@ def create_csv_file():
         writer.writerows(kdata) # basically add the entire 2d array in one go
 
 
-<<<<<<< HEAD
-get_data("https://mydramalist.com/49231-move-to-heaven")
-=======
+
+
+
 get_data("https://mydramalist.com/49231-move-to-heaven")
 
 
@@ -239,4 +245,3 @@ def get_json():
 # duration, content_rating, scores, scored_by, watchers]
         
 get_json()
->>>>>>> 399c014d099f085382f475ec784a01234cc135ac
