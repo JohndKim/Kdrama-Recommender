@@ -55,7 +55,6 @@ dict_row = {
 # the array thats gonna store multiple dict_rows
 kdata = []
 
-
 def keys_exists(element, *keys):
     '''
     Check if *keys (nested) exists in `element` (dict).
@@ -83,7 +82,11 @@ def get_data(soup):
     '''gets data of kdrama from the json file
     '''
     # this is the json file with kdrama info
-    return json.loads(soup.find('script', type='application/ld+json').text)
+    try:
+        data = json.loads(soup.find('script', type='application/ld+json').text)
+        return data
+    except AttributeError:
+        return False
 
 
 def get_details(soup):
@@ -195,8 +198,6 @@ def get_row(link, data, details, stats, soup):
     # director
     row['director'] = get_director(soup)
 
-    sleep(1)
-
     return row
 
 def add_all_kdata():
@@ -210,6 +211,11 @@ def add_all_kdata():
         progress_bar(progress, total)
 
         soup = get_soup(link)
+
+        # no json file detected = go to next link
+        if get_data(soup) == False:
+            continue
+
         kdata.append(get_row(link, get_data(soup), get_details(soup), get_stats(soup), soup))
 
         progress += 1
