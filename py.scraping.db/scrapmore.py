@@ -55,7 +55,6 @@ dict_row = {
 # the array thats gonna store multiple dict_rows
 kdata = []
 
-
 def keys_exists(element, *keys):
     '''
     Check if *keys (nested) exists in `element` (dict).
@@ -76,17 +75,18 @@ def keys_exists(element, *keys):
 def get_soup(link):
     '''gets the soup thing from the link
     '''
-    try:
-        response = requests.get(link)
-    except Exception:
-        print(f"some error with : {link}")
+    response = requests.get(link)
     return BeautifulSoup(response.text, "html.parser")
 
 def get_data(soup):
     '''gets data of kdrama from the json file
     '''
     # this is the json file with kdrama info
-    return json.loads(soup.find('script', type='application/ld+json').text)
+    try:
+        data = json.loads(soup.find('script', type='application/ld+json').text)
+        return data
+    except AttributeError:
+        return False
 
 
 def get_details(soup):
@@ -198,8 +198,6 @@ def get_row(link, data, details, stats, soup):
     # director
     row['director'] = get_director(soup)
 
-    #sleep(1)
-
     return row
 
 def add_all_kdata():
@@ -210,20 +208,22 @@ def add_all_kdata():
     total = len(links)
 
     for link in links:
-        try:
-            progress_bar(progress, total)
+        progress_bar(progress, total)
 
-            soup = get_soup(link)
-            kdata.append(get_row(link, get_data(soup), get_details(soup), get_stats(soup), soup))
+        soup = get_soup(link)
 
-            progress += 1
-        except Exception:
-            print(f"error with : {link}")
+        # no json file detected = go to next link
+        if get_data(soup) == False:
+            continue
+
+        kdata.append(get_row(link, get_data(soup), get_details(soup), get_stats(soup), soup))
+
+        progress += 1
 
 def progress_bar(progress, total, color=colorama.Fore.YELLOW):
     '''just a progress bar'''
     percent = 100 * (progress / float(total))
-    bar = '#' * int(percent) + " " * (100 - int(percent))
+    bar = ' ' * int(percent) + "-" * (100 - int(percent))
     print(color + f"\r|{bar}| {percent:.2f}%", end="\r")
     if progress == total:
         print(colorama.Fore.GREEN + f"\r|{bar}| {percent:.2f}%", end="\r")
@@ -232,7 +232,7 @@ def progress_bar(progress, total, color=colorama.Fore.YELLOW):
 def create_csv_file():
     """creates a csv file with all kdrama info
     """
-    with open(filename, 'w', newline='', encoding='utf-8') as file:
+    with open(filename, 'w', newline='') as file:
         fieldnames = ['link', 'rank', 'title', 'country', 'description', 'ep', 'genres', 'keywords', 'aired', 'network',
         'duration', 'content_rating', 'score', 'num_scored_by', 'num_watcher', 'actors', 'screenwriter', 'director']
 
@@ -241,10 +241,8 @@ def create_csv_file():
         writer.writeheader()
         
         for row in kdata:
-            try:
-                writer.writerow(row)
-            except Exception:
-                print(f"error csv with : {row} ")
+            writer.writerow(row)
+
 def get_links():
     """gets all links from a csv containing the links
 
@@ -261,9 +259,4 @@ def run():
     add_all_kdata() # processes each link and gets all info on a kdrama and adds to kdata[]
     create_csv_file() # adds each element of kdata (all info on one kdrama) to the csv
 
-
 run()
-
-print(colorama.Fore.RED + "done!")
-print(colorama.Fore.RESET)
-    
