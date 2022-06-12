@@ -17,6 +17,39 @@ document.addEventListener('click', (e) => {
   });
 });
 
+const searchInput = document.querySelector('[kdrama-serach]');
+
+searchInput.addEventListener('input', (e) => {
+  const value = e.target.value;
+});
+
+const fs = require('fs');
+const Papa = require('papaparse');
+
+const csvFilePath = 'C:UsersJohn KimDesktopkdrama_data.csv';
+
+// Function to read csv which returns a promise so you can do async / await.
+
+const readCSV = async (filePath) => {
+  const csvFile = fs.readFileSync(filePath);
+  const csvData = csvFile.toString();
+  return new Promise((resolve) => {
+    Papa.parse(csvData, {
+      header: true,
+      complete: (results) => {
+        console.log('Complete', results.data.length, 'records.');
+        resolve(results.data);
+      },
+    });
+  });
+};
+
+const test = async () => {
+  let parsedData = await readCSV(csvFilePath);
+};
+
+test();
+
 // function search_kdrama() {
 //   let input = document.getElementById('userInput').value;
 //   input = input.toLowerCase();
