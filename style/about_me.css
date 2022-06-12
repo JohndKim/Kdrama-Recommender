@@ -5,6 +5,58 @@ body {
     font-family: 'Muli', sans-serif;
 }
 
+p {
+    white-space: pre-line;
+}
+  
+
+.about-me {
+    display: grid;
+    place-items: center;
+}
+
+.about-site { 
+    width: clamp(400px, 50%, 800px);
+    padding: 1rem;
+}
+
+.about-content {
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    width: clamp(180px, 90%, 1000px);
+    text-align: center;
+}
+
+.about-header {
+    display: inherit;
+    justify-content: center;
+    text-align: center;
+}
+
+.about-paragraph {
+    display: inherit;
+    justify-content: center;
+    text-align: center;
+}
+
+.about-list {
+
+    display: inline-block; 
+	text-align: left; 
+    margin: 0px;
+    /* display: inherit;
+    justify-content: center;
+    text-align: center;
+    padding: 0px;
+    list-style-position: inside; */
+}
+
+
+
+
+
+
 /* NAV BAR */
 
 .header {
@@ -123,38 +175,3 @@ body {
 transform: rotate(45deg);
 -webkit-transform: rotate(45deg);
 }
-
-/* SEARCH BAR */
-
-.searchbar {
-
-    width: 97%;
-
-    display: flex;
-    /* flex-direction: column; */
-    justify-content: center;
-    align-items: center;
-
-    margin: 0;
-    position: absolute;
-    top: 50%;
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
-}
-
-.input-field {
-    
-    text-align: center;
-    position: absolute;
-    
-    height: 40px;
-    background-color: whitesmoke;
-    opacity: 0.35;
-    width: 40%;
-    border-radius: 15px;
-    border: none;
-    filter: drop-shadow(30px 10px 4px #6d3749);
-    
-    font-size: 16px;
-}
-
