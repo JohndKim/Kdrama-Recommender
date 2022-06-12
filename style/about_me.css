@@ -3,19 +3,31 @@
 body {
     background-color: #8e6186;
     font-family: 'Muli', sans-serif;
+
 }
 
 p {
     white-space: pre-line;
 }
-  
+
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    color: #ffffff;
+    background-color: #7aa8b7;
+    border-radius: 6px;
+    outline: none;
+}
+
 
 .about-me {
     display: grid;
     place-items: center;
 }
 
-.about-site { 
+.about-site {
     width: clamp(400px, 50%, 800px);
     padding: 1rem;
 }
@@ -42,8 +54,8 @@ p {
 
 .about-list {
 
-    display: inline-block; 
-	text-align: left; 
+    display: inline-block;
+    text-align: left;
     margin: 0px;
     /* display: inherit;
     justify-content: center;
@@ -82,7 +94,9 @@ p {
     padding: 0;
 }
 
-.dropdown.active > .dropbtn, .dropbtn:hover, .arrow:hover {
+.dropdown.active>.dropbtn,
+.dropbtn:hover,
+.arrow:hover {
     /* disappearing transition */
     /* border: #AD310B;
     -webkit-transition: background-color 1000ms linear;
@@ -111,11 +125,11 @@ p {
     transition: opacity 150ms ease-in-out, transform 150ms ease-in-out;
 }
 
-.dropdown.active > .dropbtn + .dropdown-content {
+.dropdown.active>.dropbtn+.dropdown-content {
     opacity: 1;
     transform: translateY(0);
     pointer-events: auto;
-} 
+}
 
 .information-grid {
     /* Centers the dropdown content (without this, it shifts to the right) */
@@ -146,7 +160,7 @@ p {
     display: block;
 }
 
-.dropdown-links a:hover{
+.dropdown-links a:hover {
     background-color: #fee3ff;
     color: rgb(118, 69, 135);
     border-radius: 15px;
@@ -169,9 +183,9 @@ p {
     /* this helps us see the clickable area of the arrow */
     /* outline: 1px solid red; */
     z-index: 40;
-  }
+}
 
 .down {
-transform: rotate(45deg);
--webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
 }
