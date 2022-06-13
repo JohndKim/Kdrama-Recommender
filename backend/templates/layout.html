@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}{% endblock %}</title>
+
+    <!-- pyscript -->
+
+    <!-- styles -->
+
+    {% block stylesheet %}
+    {% endblock %}
+
+    <!-- scripts -->
+
+    {% block script %}
+    {% endblock %}
+    
+  </head>
+  <body>
+     <!-- HEADER / DROPDOWN-->
+    <div class="header">
+        <div class="dropdown" data-dropdown>
+          <button class="dropbtn arrow down" data-dropdown-button></button>
+          <div class="dropdown-content information-grid">
+            <div>
+              <div class="dropdown-links">
+                <a href="#">help</a>
+                <a href="/">home</a>           
+                <a href="#">login</a>
+              </div>
+            </div>
+  
+            <div>
+              <div class="dropdown-links">
+                <a href="#">settings</a>
+                <a href="/about_me">about me</a>
+                <a href="#">click me!</a>
+            </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    {% block body %}
+    {% endblock %}
+
+  </body>
+</html>
