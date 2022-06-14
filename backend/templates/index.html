@@ -8,14 +8,42 @@
 
 {% block script %}
 <script src="..\static\main.js" defer></script>
+<!-- csv script -->
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/0.10.0/lodash.min.js"></script>
+<!-- <script src="..\static\search.js" defer></script> -->
 {% endblock %}
 
 {% block body %}
 <!-- SEARCH BAR -->
-<form action="/recommend.py" method="get">
+<form id="form" action="/search" method="get">
   <div class="searchbar">
-    <input type="text" class="input-field" placeholder="Pick your poison!" kdrama-search />
-    <input type="submit" value="Submit"> <!-- why this ? -->
+    <input type="text" id="user_input" onkeyup="searchFunction()" class="input-field" name="input" placeholder="Pick your poison!" kdrama-search />
   </div>
 </form>
+<!-- 
+  everytime the user enters or removes a letter, updates list below
+  with the most similar entries (5?)
+-->
+<ol id='list'>
+  {% for title in titles %}
+    <li class="k-title"><a href="/search?input={{ title }}"> {{ title }} </a></li>
+  {% endfor %}
+</ol>
+
+<!--
+<table class="table">
+  <caption>kdrama search</caption>
+  <thead>
+    <tr>
+    <th scope="col">#</th>
+    <th scope="col">Kdrama</th>
+    <th scope="col">Rating</th>
+    <th scope="col">Year</th>
+    <th scope="col">Description</th>
+    </tr>
+  </thead>
+<tbody>
+-->
+
 {% endblock %}

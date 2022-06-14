@@ -18,13 +18,16 @@ label_weights = {
 df = pd.read_csv(filename)
 df = df[['title', 'description', 'keywords', 'genres', 'actors', 'director', 'screenwriter']]
 
+def get_titles():
+    np_titles = df['title'].to_numpy()
+    title_list = np_titles.tolist()
+    return title_list
+
 def fill_na():
     """replaces na values with an empty string"""
     df.replace("N/A", "")
     for label in df.columns:
         df[label] = df[label].fillna('') # fills N/A values with ""
-
-fill_na()
 
 def get_indices():
     indices = pd.Series(df.index, index=df['title'])
@@ -97,11 +100,13 @@ def create_similarity_data(name):
 
 def get_top_rec_kdrama(name):
     """reorders the top recommended kdramas and converts to a dataframe"""
+    fill_na()
     data = create_similarity_data(name)
     new_df = pd.DataFrame(data)
     new_df['score'] = new_df.sum(axis=1, numeric_only=True)
     new_df = new_df.sort_values("score", ascending=False)
-    print(new_df)
+    # print(new_df)
+    return new_df
 
 # get_top_rec_kdrama("Move to Heaven")
 search_kdrama("Heaven")

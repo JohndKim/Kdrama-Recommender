@@ -159,3 +159,17 @@ body {
     filter: drop-shadow(30px 10px 4px #6d3749);
 
 }
+
+.animals {
+    display: list-item;
+}
+
+#list li {
+    /* display: none; */
+}
+
+/* #list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+} */

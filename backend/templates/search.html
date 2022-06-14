@@ -1,10 +1,21 @@
-{% extends "base.html" %}
-{% block title %} Search Page {% endblock %}
+{% extends "layout.html" %}
 
-{% block content %}
-<form action="#" method="post">
+{% block title %} home {% endblock %}
 
+{% block stylesheet %} 
+<link rel="stylesheet" href="..\static\styles.css" />
+{% endblock %}
+
+{% block script %}
+<script src="..\static\main.js" defer></script>
+{% endblock %}
+
+{% block body %}
+<!-- SEARCH BAR -->
+<form action="/search" method="get">
+    <div class="searchbar">
+      <input type="text" class="input-field" placeholder="Pick your poison!" kdrama-search />
+      <input type="submit" value="Submit">
+    </div>
 </form>
-
-
 {% endblock %}
