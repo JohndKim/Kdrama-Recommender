@@ -1,4 +1,4 @@
-d3.csv('..\\static\\kdrama_data.csv').then(function (data) {
+d3.csv('..\\static\\kdrama_data.csv').then( data => {
   console.log(data);
 
   var kdrama = data;
@@ -21,7 +21,7 @@ d3.csv('..\\static\\kdrama_data.csv').then(function (data) {
 
     console.log(inputValue.length);
 
-    var filteredData = kdrama.filter((kdrama) => kdrama.title.trim().includes(inputValue));
+    var filteredData = kdrama.filter((k_drama) => k_drama.title.trim().includes(inputValue));
 
     var output = _.sortBy(filteredData, 'title').reverse();
 
