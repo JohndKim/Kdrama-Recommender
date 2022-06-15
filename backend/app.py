@@ -35,15 +35,10 @@ def search():
     # e.g. "Move to Heaven"
     # user_input = request.form('input')
     user_input = request.args.get("input")
-    # print(user_input)
-    # print(type(user_input))
-    # user_input = request.args.get("input")
-    # executes function to get top 10 kdrama
-    # recommended_list = get_top_rec_kdrama(user_input)
+    recommended_list = get_top_rec_kdrama(user_input)
     # check if title is in list of kdramas we have
-    return render_template("search.html", title=user_input)
-    # # GET request
-    # if request.method == 'GET':
+    return render_template("search.html", titles=get_titles(), title=user_input, rec_list=recommended_list)
+
 
 
 

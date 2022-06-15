@@ -21,92 +21,63 @@ function searchFunction() {
   // Declare variables
   var input, filter, ul, li, a, i, txtValue;
   input = document.getElementById('user_input');
-  filter = input.value.toUpperCase();
+  filter = input.value.toUpperCase().trim();
   ul = document.getElementById('list');
   li = ul.getElementsByTagName('li');
+
+  // if there is no input, show nothing
+  const inputDisplay = input.value.length > 1 ? 'list-item' : 'none';
+  ul.style.display = inputDisplay;
 
   // Loop through all list items, and hide those who don't match the search query
   for (i = 0; i < li.length; i++) {
     a = li[i].getElementsByTagName('a')[0];
     txtValue = a.textContent || a.innerText;
     if (txtValue.toUpperCase().indexOf(filter) > -1) {
-      li[i].style.display = '';
+      li[i].style.display = 'list-item';
     } else {
       li[i].style.display = 'none';
     }
   }
 
-  // // Declare variables
-  // let input = document.getElementById('user_input').value;
-  // input = input.toLowerCase().trim();
-  // let x = document.getElementsByClassName('k-title');
+  let num_of_matches = get_match_num(li);
+  let max_entries_shown = 5;
 
-  // // if (input.length == 0 || input[0] == ' ') {
-  // //   #list li.style.display = 'none';
-  // // }
-
-  // for (i = 0; i < x.length; i++) {
-  //   if (!x[i].innerHTML.toLowerCase().includes(input)) {
-  //     x[i].style.display = 'none';
-  //   } else {
-  //     x[i].style.display = 'list-item';
-  //   }
-  // }
+  remove_rounded_corners(li);
+  limit_searches_shown(li, num_of_matches, max_entries_shown);
 }
 
-// executes search when "enter" is pressed
+// gets number of search results
+function get_match_num(li) {
+  let num_of_matches = 0;
+  for (const element of li) {
+    if (element.style.display == 'list-item') num_of_matches++;
+  }
+  return num_of_matches;
+}
 
-// function search() {
-//   input = document.getElementById('myInput');
-// }
+function remove_rounded_corners(li) {
+  for (const element of li) {
+    let a = element.getElementsByTagName('a')[0];
+    if (a.classList.contains('rounded-top')) a.classList.remove('rounded-top');
+    if (a.classList.contains('rounded-bottom')) a.classList.remove('rounded-bottom');
+    if (a.classList.contains('round-boi')) a.classList.remove('round-boi');
+  }
+}
 
-// var input = document.getElementById('myInput');
-// input.addEventListener('keypress', function (event) {
-//   if (event.key === 'Enter') {
-//     event.preventDefault();
-
-// execute search ?
-
-// document.getElementById("myBtn").click();
-//   }
-// });
-
-// const searchInput = document.querySelector('[kdrama-serach]');
-
-// searchInput.addEventListener('input', (e) => {
-//   const value = e.target.value;
-// });
-
-// const fs = require('fs');
-// const Papa = require('papaparse');
-
-// const csvFilePath = 'C:UsersJohn KimDesktopkdrama_data.csv';
-
-// // Function to read csv which returns a promise so you can do async / await.
-
-// const readCSV = async (filePath) => {
-//   const csvFile = fs.readFileSync(filePath);
-//   const csvData = csvFile.toString();
-//   return new Promise((resolve) => {
-//     Papa.parse(csvData, {
-//       header: true,
-//       complete: (results) => {
-//         console.log('Complete', results.data.length, 'records.');
-//         resolve(results.data);
-//       },
-//     });
-//   });
-// };
-
-// const test = async () => {
-//   let parsedData = await readCSV(csvFilePath);
-// };
-
-// test();
-
-// function search_kdrama() {
-//   let input = document.getElementById('userInput').value;
-//   input = input.toLowerCase();
-//   // this is where the python should come in or smth (see re_sys.py)
-//   // search for matching kdramas:
-// }
+// limits the number of search results shown
+function limit_searches_shown(li, num_of_matches, limit) {
+  let count = 0;
+  for (const element of li) {
+    let a = element.getElementsByTagName('a')[0];
+    // adds rounded corners to the top
+    if (num_of_matches == 1 && element.style.display == 'list-item') {
+      a.classList.add('round-boi');
+      break;
+    }
+    if (count == 0 && element.style.display == 'list-item') a.classList.add('rounded-top');
+    if (element.style.display == 'list-item') count++;
+    if (count > limit && element.style.display == 'list-item') element.style.display = 'none';
+    if (count == limit || num_of_matches == count) a.classList.add('rounded-bottom');
+  }
+}
