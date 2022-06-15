@@ -1,4 +1,4 @@
-d3.csv('..\\static\\kdrama_data.csv').then( data => {
+d3.csv('..\\static\\kdrama_data.csv').then(data => {
   console.log(data);
 
   var kdrama = data;
