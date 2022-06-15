@@ -43,7 +43,7 @@ def og_cos_sim():
 def search_kdrama(kdrama_name):
     """searches for kdrama with matching name and returns top result"""
     # return get_indices()[get_indices().index.str.contains(kdrama_name, regex=False, na=False)][0]
-    print(get_indices()[get_indices().index.str.contains(kdrama_name, regex=False, na=False)]) 
+    return get_indices()[get_indices().index.str.contains(kdrama_name.lower(), case=False, regex=False, na=False)][0]
 
 def get_recommended_kdramas(target_kdrama_index, kdrama_similarities, kdramas_df, rec_num):
     """returns the top (rec_num) recommended kdramas based on keywords, genres, actors, director, director
@@ -106,7 +106,7 @@ def get_top_rec_kdrama(name):
     new_df['score'] = new_df.sum(axis=1, numeric_only=True)
     new_df = new_df.sort_values("score", ascending=False)
     # print(new_df)
-    return new_df
-
+    kdrama_list = new_df['titles'].values.tolist()
+    return kdrama_list
 # get_top_rec_kdrama("Move to Heaven")
-search_kdrama("Heaven")
+# search_kdrama("heaven")

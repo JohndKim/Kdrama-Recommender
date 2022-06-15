@@ -12,10 +12,23 @@
 
 {% block body %}
 <!-- SEARCH BAR -->
-<form action="/search" method="get">
-    <div class="searchbar">
-      <input type="text" class="input-field" placeholder="Pick your poison!" kdrama-search />
-      <input type="submit" value="Submit">
-    </div>
+<form id="form" autocomplete="off" action="/search" method="get">
+  <div class="searchbar">
+    <input type="text" id="user_input" onkeyup="searchFunction()" class="input-field" name="input" placeholder="{{ title }}" kdrama-search />
+    <ul id='rec_list'>
+      {% for rec in rec_list %}
+      <li class="k-rec"><a href="/search?input={{ title }}"> {{ rec }} </a></li>
+      {% endfor %}
+    </ul>
+
+    <ul id='list'>
+      {% for title in titles %}
+      <li class="k-title"><a href="/search?input={{ title }}"> {{ title }} </a></li>
+      {% endfor %}
+    </ul>
+
+
+  </div>
 </form>
+
 {% endblock %}
