@@ -208,3 +208,10 @@ ul {
 .round-boi {
     border-radius: 10px;
 }
+
+.help-wrapper {
+    display: grid;
+    justify-content: center;
+    
+}
+
