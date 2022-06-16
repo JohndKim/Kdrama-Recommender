@@ -2,10 +2,6 @@
 
 {% block title %} help {% endblock %}
 
-{% block stylesheet %} 
-<link rel="stylesheet" href="..\static\styles.css" />
-{% endblock %}
-
 {% block script %}
 <script src="..\static\main.js" defer></script>
 {% endblock %}
@@ -14,13 +10,27 @@
 
 <div class="help-wrapper">
     <div class="help-header">
-        <h1>You need help ?</h1>
+        <h1>
+            <span class="wave">👋🏻</span>
+            You need help ?
+        </h1>
         <p>Welp there isnt really much to explain... but here we go</p>
     </div>
 
     <div class="help-content">
         <h3>What is the purpose of this Website?</h3>
         <p>quick explanation: you type in a kdrama and you get recommendations for the next one to watch.</p>
+    </div>
+
+    <div class="help-content">
+        <h3>What do the recommendation labels mean?</h3>
+        <p>Whenever you select a kdrama, a list of recommendations come up. For each recommendation, its title, rank, score, and similarity score appear.
+            
+            Title: The title of the korean drama
+            Rank: The position of a kdrama based on its popularity (for reference, we have over 3000 kdramas stored!)
+            Score: An indicator from 1-10 of how good a kdrama is
+            Similarity Score: A number from 1-100 on how similar a kdrama is to another (a high number is very rare)  
+        </p>
     </div>
 
     <div class="join-discord">
@@ -31,5 +41,8 @@
 
 </div>
 
+<div class="img">
+    <img id="meme" src="../static/images/kdrama_plot_meme.jpg" alt="korean background">
+</div>
 
 {% endblock %}

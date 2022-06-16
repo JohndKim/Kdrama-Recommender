@@ -6,21 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}{% endblock %}</title>
 
-    <!-- pyscript -->
-
     <!-- styles -->
+    <link rel="stylesheet" href="..\static\styles.css" />
 
-    {% block stylesheet %}
-    {% endblock %}
 
     <!-- scripts -->
-
     {% block script %}
     {% endblock %}
     
   </head>
   <body>
-     <!-- HEADER / DROPDOWN-->
+
+    <!-- BACKGROUND -->
+    <div id="bg">
+      <img src="../static/images/korea_bg.png" alt="korean background">
+    </div>
+
+
+    <!-- HEADER / DROPDOWN-->
     <div class="header">
       <div class="dropdown" data-dropdown>
         <button class="dropbtn arrow down" data-dropdown-button></button>
@@ -32,7 +35,7 @@
                 <a href="/login">login</a>
               </div>
             </div>
-  
+
             <div>
               <div class="dropdown-links">
                 <a href="/settings">settings</a>
@@ -46,6 +49,6 @@
 
     {% block body %}
     {% endblock %}
-    
+      
   </body>
 </html>

@@ -89,6 +89,7 @@ def create_similarity_data(name):
     for kdrama in top_ten:
         # adds this title to dictionary
         similarity_data["titles"].append(kdrama)
+
         for label in label_weights.keys():
             vec = vectorize_kdrama(label)
             sim = find_similarity(vec)
@@ -103,10 +104,33 @@ def get_top_rec_kdrama(name):
     fill_na()
     data = create_similarity_data(name)
     new_df = pd.DataFrame(data)
-    new_df['score'] = new_df.sum(axis=1, numeric_only=True)
-    new_df = new_df.sort_values("score", ascending=False)
-    # print(new_df)
+    new_df['sim_score'] = new_df.sum(axis=1, numeric_only=True)
+    new_df = new_df.sort_values("sim_score", ascending=False)
+    print(new_df)
     kdrama_list = new_df['titles'].values.tolist()
-    return kdrama_list
+
+    # singles out similarity scores, convert to percent and round to 1dp (e.g. 34.3%)
+    sim_scores = new_df['sim_score'].reset_index(drop=True)
+    sim_scores.loc[:,] *= 100
+    sim_scores = sim_scores.round(decimals = 1)
+
+    df = pd.read_csv(filename)
+    df = df[['title', 'rank', 'score']]
+
+    for kdrama in kdrama_list:
+        if kdrama == kdrama_list[0]:
+            full_df = df.loc[df['title'] == kdrama]
+            continue
+        row = df.loc[df['title'] == kdrama]
+        full_df = pd.concat([full_df, row], ignore_index=True)
+
+
+    merged_df = pd.concat([full_df, sim_scores], axis=1, ignore_index=True)
+    merged_df.columns = ['title', 'rank', 'score', 'sim_score']
+    dicti = merged_df.to_dict()
+    return dicti
+
+
 # get_top_rec_kdrama("Move to Heaven")
 # search_kdrama("heaven")
+
