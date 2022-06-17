@@ -6,38 +6,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}{% endblock %}</title>
 
-    <!-- pyscript -->
-
     <!-- styles -->
+    <link rel="stylesheet" href="..\static\styles.css" />
 
-    {% block stylesheet %}
-    {% endblock %}
 
     <!-- scripts -->
-
     {% block script %}
     {% endblock %}
     
   </head>
   <body>
-     <!-- HEADER / DROPDOWN-->
+
+    <!-- BACKGROUND -->
+    <div id="bg">
+      <img src="../static/images/korea_bg.png" alt="korean background">
+    </div>
+
+
+    <!-- HEADER / DROPDOWN-->
     <div class="header">
       <div class="dropdown" data-dropdown>
         <button class="dropbtn arrow down" data-dropdown-button></button>
           <div class="dropdown-content information-grid">
             <div>
               <div class="dropdown-links">
-                <a href="/help">help</a>
-                <a href="/">home</a>           
-                <a href="/login">login</a>
+                <span class="dropdown-span"><a href="/help">help</a></span>
+                <span class="dropdown-span"><a href="/">home</a></span>           
+                <span class="dropdown-span"><a href="/login">login</a></span>
               </div>
             </div>
-  
+
             <div>
               <div class="dropdown-links">
-                <a href="/settings">settings</a>
-                <a href="/about_me">about me</a>
-                <a href="/click_me">click me!</a>
+                <span class="dropdown-span"><a href="/settings">settings</a></span>
+                <span class="dropdown-span"><a href="/about_me">about me</a></span>
+                <span class="dropdown-span"><a href="/click_me">click me!</a></span>
             </div>
           </div>
         </div>
@@ -46,6 +49,6 @@
 
     {% block body %}
     {% endblock %}
-    
+      
   </body>
 </html>

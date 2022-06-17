@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+
+{% block title %} info {% endblock %}
+
+{% block script %}
+<script src="..\static\main.js" defer></script>
+{% endblock %}
+
+{% block body %}
+
+<div class="kdrama-info">
+    <h2 class="k-title">{{ info['title'] }}</h2>
+    <div class="k-content">
+        <div class="k-stats">
+            <h4>Stats</h4>
+            <ul> 
+                <li>Episodes: {{ info['ep'] }}</li>
+                <li>Average Duration: {{ info['duration'] }}</li>
+                <li>Rank: {{ info['rank'] }}</li>
+                <li>Score: {{ info['score'] }} (scored by: {{ info['num_scored_by'] }})</li>
+                <li>Content Rating: {{ info['content_rating'] }}</li>
+            </ul>
+            <h4>Description</h4>
+            <p>{{ info['description'] }}</p>
+        </div>
+        <div class="k-details">
+            <h4>Details</h4>
+            <ul>
+                <li>Keywords: {{ info['keywords'] }}</li>
+                <li>Genres: {{ info['genres'] }}</li>
+                <li>Actors: {{ info['actors'] }}</li>
+                <li>Director: {{ info['director'] }}</li>
+                <li>Screenwriter: {{ info['screenwriter'] }}</li>
+            </ul>
+            <a class="button" href="{{ info['link'] }}">More Info</a>
+        </div>
+    <!-- stats
+        rank, ep, duration, score, num scored by, num watcher, content_rating
+    -->
+    </div>
+    <!-- details
+        description, keywords, genres, actors, director, screenwriter
+    -->
+</div>
+
+
+
+<!--
+    link
+    title
+    rank
+    description
+    keywords
+    genres
+    actors, director, screenwriter
+    ep
+    duration
+    content_rating
+-->
+
+{% endblock %}

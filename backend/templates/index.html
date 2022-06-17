@@ -2,16 +2,8 @@
 
 {% block title %} home {% endblock %}
 
-{% block stylesheet %} 
-<link rel="stylesheet" href="..\static\styles.css" />
-{% endblock %}
-
 {% block script %}
 <script src="..\static\main.js" defer></script>
-<!-- csv script -->
-<script src="https://d3js.org/d3.v5.min.js"></script>
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/0.10.0/lodash.min.js"></script>
-<!-- <script src="..\static\search.js" defer></script> -->
 {% endblock %}
 
 {% block body %}
@@ -27,23 +19,5 @@
     </ul>
   </div>
 </form>
-
-
-
-
-<!--
-<table class="table">
-  <caption>kdrama search</caption>
-  <thead>
-    <tr>
-    <th scope="col">#</th>
-    <th scope="col">Kdrama</th>
-    <th scope="col">Rating</th>
-    <th scope="col">Year</th>
-    <th scope="col">Description</th>
-    </tr>
-  </thead>
-<tbody>
--->
 
 {% endblock %}
