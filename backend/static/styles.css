@@ -28,7 +28,7 @@ body {
     min-width: 50%;
     min-height: 50%;
 
-    filter: blur(0px) opacity(80%);
+    filter: blur(3px) opacity(80%);
 }
 
 /* NAV BAR */
