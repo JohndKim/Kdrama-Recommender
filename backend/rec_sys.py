@@ -18,11 +18,35 @@ label_weights = {
 df = pd.read_csv(filename)
 df = df[['title', 'description', 'keywords', 'genres', 'actors', 'director', 'screenwriter']]
 
+def remove_chars(string):
+    remove_list = ["[", "]", "'"]
+    for remove in remove_list:
+        string = string.replace(remove, "")
+    return string
+
+def get_info(title):
+    df = pd.read_csv(filename)
+    fill_na()
+    index = search_kdrama(title)
+    
+    row = df.loc[index]
+    dicti = row.to_dict()
+    # removes unnecessary characters
+    columns = ['keywords', 'genres', 'actors']
+    for column in columns:
+        dicti[column] = remove_chars(dicti[column]) 
+    return dicti
+
 def get_titles():
     np_titles = df['title'].to_numpy()
     title_list = np_titles.tolist()
     return title_list
 
+def kdrama_exists(title, klist):
+    for kdrama in klist:
+        if title.lower() == kdrama.lower(): return True
+    return False
+    
 def fill_na():
     """replaces na values with an empty string"""
     df.replace("N/A", "")
@@ -44,6 +68,8 @@ def search_kdrama(kdrama_name):
     """searches for kdrama with matching name and returns top result"""
     # return get_indices()[get_indices().index.str.contains(kdrama_name, regex=False, na=False)][0]
     return get_indices()[get_indices().index.str.contains(kdrama_name.lower(), case=False, regex=False, na=False)][0]
+
+
 
 def get_recommended_kdramas(target_kdrama_index, kdrama_similarities, kdramas_df, rec_num):
     """returns the top (rec_num) recommended kdramas based on keywords, genres, actors, director, director
@@ -115,7 +141,8 @@ def get_top_rec_kdrama(name):
     sim_scores = sim_scores.round(decimals = 1)
 
     df = pd.read_csv(filename)
-    df = df[['title', 'rank', 'score']]
+    fill_na()
+    df = df[['link', 'title', 'rank', 'score']]
 
     for kdrama in kdrama_list:
         if kdrama == kdrama_list[0]:
@@ -126,7 +153,7 @@ def get_top_rec_kdrama(name):
 
 
     merged_df = pd.concat([full_df, sim_scores], axis=1, ignore_index=True)
-    merged_df.columns = ['title', 'rank', 'score', 'sim_score']
+    merged_df.columns = ['link', 'title', 'rank', 'score', 'sim_score']
     dicti = merged_df.to_dict()
     return dicti
 
