@@ -17,67 +17,104 @@ document.addEventListener('click', (e) => {
   });
 });
 
-function searchFunction() {
-  // Declare variables
-  var input, filter, ul, li, a, i, txtValue;
+function newSearch(titles) {
+  var input, filter, count, title_list, item, link, title;
   input = document.getElementById('user_input');
   filter = input.value.toUpperCase().trim();
-  ul = document.getElementById('list');
-  li = ul.getElementsByTagName('li');
+  count = 0;
+  title_list = document.getElementById('list');
+  title_list.innerHTML = '';
 
-  // if there is no input, show nothing
-  const inputDisplay = input.value.length > 1 ? 'list-item' : 'none';
-  ul.style.display = inputDisplay;
+  if (filter.length <= 2) {
+    return;
+  }
 
-  // Loop through all list items, and hide those who don't match the search query
-  for (i = 0; i < li.length; i++) {
-    a = li[i].getElementsByTagName('a')[0];
-    txtValue = a.textContent || a.innerText;
-    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-      li[i].style.display = 'list-item';
-    } else {
-      li[i].style.display = 'none';
+  for (const element of titles) {
+    if (element.toUpperCase().indexOf(filter) > -1) {
+      item = document.createElement('li');
+      link = document.createElement('a');
+      item.classList.add('k-title');
+      link.href = '/search?input=' + element;
+
+      if (count == 0) link.classList.add('rounded-top');
+      if (count == 4) link.classList.add('rounded-bottom');
+
+      // <a href="/search?input={{ title }}"> {{ title }} </a>
+
+      title = document.createTextNode(element);
+      link.appendChild(title);
+      item.appendChild(link);
+      title_list.append(item);
+      count++;
     }
+
+    if (count == 5) break;
   }
-
-  let num_of_matches = get_match_num(li);
-  let max_entries_shown = 5;
-
-  remove_rounded_corners(li);
-  limit_searches_shown(li, num_of_matches, max_entries_shown);
+  if (count > 1) link.classList.add('rounded-bottom');
+  if (count == 1) link.classList.add('round-boi');
 }
 
-// gets number of search results
-function get_match_num(li) {
-  let num_of_matches = 0;
-  for (const element of li) {
-    if (element.style.display == 'list-item') num_of_matches++;
-  }
-  return num_of_matches;
-}
+// function searchFunction() {
+//   // Declare variables
+//   var input, filter, ul, li, a, i, txtValue;
+//   input = document.getElementById('user_input');
+//   filter = input.value.toUpperCase().trim();
+//   ul = document.getElementById('list');
+//   li = ul.getElementsByTagName('li');
 
-function remove_rounded_corners(li) {
-  for (const element of li) {
-    let a = element.getElementsByTagName('a')[0];
-    if (a.classList.contains('rounded-top')) a.classList.remove('rounded-top');
-    if (a.classList.contains('rounded-bottom')) a.classList.remove('rounded-bottom');
-    if (a.classList.contains('round-boi')) a.classList.remove('round-boi');
-  }
-}
+//   // if there is no input, show nothing
+//   const inputDisplay = input.value.length > 1 ? 'list-item' : 'none';
+//   ul.style.display = inputDisplay;
 
-// limits the number of search results shown
-function limit_searches_shown(li, num_of_matches, limit) {
-  let count = 0;
-  for (const element of li) {
-    let a = element.getElementsByTagName('a')[0];
-    // adds rounded corners to the top
-    if (num_of_matches == 1 && element.style.display == 'list-item') {
-      a.classList.add('round-boi');
-      break;
-    }
-    if (count == 0 && element.style.display == 'list-item') a.classList.add('rounded-top');
-    if (element.style.display == 'list-item') count++;
-    if (count > limit && element.style.display == 'list-item') element.style.display = 'none';
-    if (count == limit || num_of_matches == count) a.classList.add('rounded-bottom');
-  }
-}
+//   // Loop through all list items, and hide those who don't match the search query
+//   for (i = 0; i < li.length; i++) {
+//     a = li[i].getElementsByTagName('a')[0];
+//     txtValue = a.textContent || a.innerText;
+//     if (txtValue.toUpperCase().indexOf(filter) > -1) {
+//       li[i].style.display = 'list-item';
+//     } else {
+//       li[i].style.display = 'none';
+//     }
+//   }
+
+//   let num_of_matches = get_match_num(li);
+//   let max_entries_shown = 5;
+
+//   remove_rounded_corners(li);
+//   limit_searches_shown(li, num_of_matches, max_entries_shown);
+// }
+
+// // gets number of search results
+// function get_match_num(li) {
+//   let num_of_matches = 0;
+//   for (const element of li) {
+//     if (element.style.display == 'list-item') num_of_matches++;
+//   }
+//   return num_of_matches;
+// }
+
+// function remove_rounded_corners(li) {
+//   for (const element of li) {
+//     let a = element.getElementsByTagName('a')[0];
+//     if (a.classList.contains('rounded-top')) a.classList.remove('rounded-top');
+//     if (a.classList.contains('rounded-bottom')) a.classList.remove('rounded-bottom');
+//     if (a.classList.contains('round-boi')) a.classList.remove('round-boi');
+//   }
+// }
+
+// // limits the number of search results shown
+// function limit_searches_shown(li, num_of_matches, limit) {
+//   let count = 0;
+//   for (const element of li) {
+//     let a = element.getElementsByTagName('a')[0];
+//     // adds rounded corners to the top
+//     if (num_of_matches == 1 && element.style.display == 'list-item') {
+//       a.classList.add('round-boi');
+//       break;
+//     }
+//     if (count == 0 && element.style.display == 'list-item') a.classList.add('rounded-top');
+//     if (element.style.display == 'list-item') count++;
+//     if (count > limit && element.style.display == 'list-item') element.style.display = 'none';
+//     if (count == limit || num_of_matches == count) a.classList.add('rounded-bottom');
+//   }
+// }

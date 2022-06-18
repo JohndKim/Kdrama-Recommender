@@ -10,14 +10,14 @@
 
 <!-- SEARCH BAR -->
 <form id="form" autocomplete="off" action="/search" method="get">
-  <div class="searchbar">
-    <input type="text" id="user_input" onkeyup="searchFunction()" class="input-field" name="input" placeholder="Pick your poison!" kdrama-search />
-    <ul id='list'>
-      {% for title in titles %}
-      <li class="k-title"><a href="/search?input={{ title }}"> {{ title }} </a></li>
-      {% endfor %}
-    </ul>
+  <div class="overlay">
+    <div class="searchbar">
+      <input type="text" id="user_input" onkeyup="newSearch({{ titles }})" class="input-field" name="input" placeholder="Pick your poison!" kdrama-search />
+      
+      <ul id='list'>
+      </ul>
+
+    </div>
   </div>
 </form>
-
 {% endblock %}

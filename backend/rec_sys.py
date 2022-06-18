@@ -19,6 +19,8 @@ df = pd.read_csv(filename)
 df = df[['title', 'description', 'keywords', 'genres', 'actors', 'director', 'screenwriter']]
 
 def remove_chars(string):
+    if isinstance(string, str) == False:
+        return string
     remove_list = ["[", "]", "'"]
     for remove in remove_list:
         string = string.replace(remove, "")
@@ -125,7 +127,7 @@ def create_similarity_data(name):
     
     return similarity_data
 
-def get_top_rec_kdrama(name):
+def get_top_rec_kdrama(name, sort_label):
     """reorders the top recommended kdramas and converts to a dataframe"""
     fill_na()
     data = create_similarity_data(name)
@@ -153,7 +155,9 @@ def get_top_rec_kdrama(name):
 
 
     merged_df = pd.concat([full_df, sim_scores], axis=1, ignore_index=True)
-    merged_df.columns = ['link', 'title', 'rank', 'score', 'sim_score']
+    merged_df.columns = ['link', 'title', 'rank', 'score', 'sim score']
+    merged_df = merged_df.sort_values(sort_label, ascending=True)
+
     dicti = merged_df.to_dict()
     return dicti
 

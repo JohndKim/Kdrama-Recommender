@@ -8,49 +8,45 @@
 
 {% block body %}
 <!-- SEARCH BAR -->
-<form id="form" autocomplete="off" action="/search" method="get">
-  <div class="searchbar">
-    <input type="text" id="user_input" onkeyup="searchFunction()" class="input-field" name="input" placeholder="{{ title }}" kdrama-search />
-    <div class="rec-table">
-      <table aria-describedby="table of recommended kdrama">
-          <!-- headers (title, rank, score, similarity score)-->
-          <tr>
-            {% for col_name in rec_list %}
-              {% if col_name != 'link' %}
-                <th> {{ col_name }} </th>
-              {% endif %}
-            {% endfor %}
-          </tr>
-
-          <!-- kdrama infos -->
-          {% for i in range(9) %}
-          <tr>
-            {% for col_name in rec_list %}
-            <!-- don't inclue links-->
-              {% if col_name != 'link' %}
-              <!-- if title, make title 'a' -->
-                {% if col_name == 'title' %}
-                  <td class="rec-link"><a href="/info?input={{ rec_list['title'][i] }}"> {{ rec_list[col_name][i] }} </a></td>
-                {% else %}
-                  <td> {{ rec_list[col_name][i] }} </td>
+<form id="form" class="form-div" autocomplete="off" action="/search" method="get">
+  <div class="overlay">
+    <div class="searchbar">
+      <input type="text" id="user_input" onkeyup="newSearch({{ titles }})" class="input-field" name="input" placeholder="{{ title }}" kdrama-search />
+      <div class="rec-table">
+        <table aria-describedby="table of recommended kdrama">
+            <!-- headers (title, rank, score, similarity score)-->
+            <tr>
+              {% for col_name in rec_list %}
+                {% if col_name != 'link' %}
+                  <th> {{ col_name }} </th>
                 {% endif %}
-              {% endif %}
+              {% endfor %}
+            </tr>
+
+            <!-- kdrama infos -->
+            {% for i in range(9) %}
+            <tr>
+              {% for col_name in rec_list %}
+              <!-- don't inclue links-->
+                {% if col_name != 'link' %}
+                <!-- if title, make title 'a' -->
+                  {% if col_name == 'title' %}
+                    <td class="rec-link"><a href="/info?input={{ rec_list['title'][i] }}"> {{ rec_list[col_name][i] }} </a></td>
+                  {% else %}
+                    <td> {{ rec_list[col_name][i] }} </td>
+                  {% endif %}
+                {% endif %}
+              {% endfor %}
+            </tr>
             {% endfor %}
-          </tr>
-          {% endfor %}
-          
-      </table>
+            
+        </table>
+      </div>
+
+      <ul id='list'>
+      </ul>
+
     </div>
-
-
-    <ul id='list'>
-      {% for title in titles %}
-      <li class="k-title"><a href="/search?input={{ title }}"> {{ title }} </a></li>
-      {% endfor %}
-    </ul>
-
-
   </div>
 </form>
-
 {% endblock %}
