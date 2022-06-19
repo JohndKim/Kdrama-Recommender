@@ -17,43 +17,6 @@ document.addEventListener('click', (e) => {
   });
 });
 
-function newSearch(titles) {
-  var input, filter, count, title_list, item, link, title;
-  input = document.getElementById('user_input');
-  filter = input.value.toUpperCase().trim();
-  count = 0;
-  title_list = document.getElementById('list');
-  title_list.innerHTML = '';
-
-  if (filter.length <= 2) {
-    return;
-  }
-
-  for (const element of titles) {
-    if (element.toUpperCase().indexOf(filter) > -1) {
-      item = document.createElement('li');
-      link = document.createElement('a');
-      item.classList.add('k-title');
-      link.href = '/search?input=' + element;
-
-      if (count == 0) link.classList.add('rounded-top');
-      if (count == 4) link.classList.add('rounded-bottom');
-
-      // <a href="/search?input={{ title }}"> {{ title }} </a>
-
-      title = document.createTextNode(element);
-      link.appendChild(title);
-      item.appendChild(link);
-      title_list.append(item);
-      count++;
-    }
-
-    if (count == 5) break;
-  }
-  if (count > 1) link.classList.add('rounded-bottom');
-  if (count == 1) link.classList.add('round-boi');
-}
-
 // function searchFunction() {
 //   // Declare variables
 //   var input, filter, ul, li, a, i, txtValue;

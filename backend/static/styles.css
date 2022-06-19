@@ -6,12 +6,14 @@ body {
     /* overflow: hidden; */
 }
 
+/* RESPONSIVE FONT SIZES */
+
 p, h4 {
     font-size: clamp(1.05rem, 0.9vw, 2rem); 
 }
 
 li, #list li a {
-    font-size: clamp(1.0rem, 1.4vw, 1.8rem); 
+    font-size: clamp(1.0rem, 1.3vw, 1.6rem); 
     white-space: pre-line;
 }
 
@@ -253,6 +255,68 @@ form {
 
 } 
 
+/* SETTINGS */
+
+.settings {
+    position: relative;
+    width: 200px;
+}
+
+.settings select {
+    display: none;
+}
+
+.select-selected {
+    background-color: rgb(65, 106, 147, 0.7);
+    /* border-radius: 10px; */
+}
+  
+  /* Style the arrow inside the select element: */
+  .select-selected:after {
+    position: absolute;
+    content: "";
+    top: 14px;
+    right: 10px;
+    width: 0;
+    height: 0;
+    border: 6px solid transparent;
+    border-color: #fff transparent transparent transparent;
+  }
+  
+  /* Point the arrow upwards when the select box is open (active): */
+  .select-selected.select-arrow-active:after {
+    border-color: transparent transparent #fff transparent;
+    top: 7px;
+  }
+  
+  /* style the items (options), including the selected item: */
+  .select-items div,.select-selected {
+    color: #ffffff;
+    padding: 8px 16px;
+    border: 1px solid transparent;
+    border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+    cursor: pointer;
+  }
+  
+  /* Style items (options): */
+  .select-items {
+    position: absolute;
+    background-color: rgb(120, 187, 255, 0.5);
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 99;
+  }
+  
+  /* Hide the items when the select box is closed: */
+  .select-hide {
+    display: none;
+  }
+  
+  .select-items div:hover, .same-as-selected {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+
 /* SEARCH RESULTS */
 
 #list {
@@ -273,7 +337,7 @@ form {
     margin: 1;
 }
 
-#list li a {
+#list li {
     /* filter: drop-shadow(30px 10px 4px #6d3749); */
     border: 1px solid rgba(62, 69, 255, 0.459);
     margin-top: -1px; /* Prevent double borders */
@@ -285,13 +349,14 @@ form {
     display: block
 }
 
-#list li a:hover {
+#list li:hover {
     /* filter: drop-shadow(20px 10px 3px #6d3749) opacity(80%); */
     background-color: #6bd8ee63;
+    cursor: pointer;
 }
 
 .rounded-top {
-    border-radius: 10px 10px 0 0;    
+    border-radius: 10px 10px 0 0 !important;    
 }
 
 .rounded-bottom {
@@ -484,7 +549,7 @@ h4.about-contact {
 }
 
 .about-list li::marker {
-    color: rgb(71, 37, 85);
+    color: rgb(37, 76, 134);
 }
 
 
@@ -585,13 +650,27 @@ h2.k-title {
 
 }
 
-.k-stats ul, .k-details ul {
+.k-content ul {
     display: inline-block;
     text-align: left;
     margin: 0px;
     list-style-type: "▶ ";
     color: rgb(0, 0, 0);
 }
+
+.k-content li::marker {
+    color:#1c3b69;
+}
+
+.k-stats h4, .k-details h4 {
+    font-size: clamp(1.1rem, 1.4vw, 1.3rem); 
+}
+
+.k-content ul li, .k-stats p {
+    font-size: clamp(1rem, 1.4vw, 1.2rem); 
+}
+
+
 
 .kdrama-info {
     display: grid;
@@ -612,18 +691,18 @@ h2.k-title {
 
 .button {
     display: inline-block;
-    margin-top: 20px;
+    margin-top: 30px;
     padding: 8px 15px;
     text-align: center;
     text-decoration: none;
     color: #ffffff;
-    background-color: rgb(154, 115, 170);
+    background-color: rgb(70, 69, 128);
     border-radius: 6px;
     outline: none;
 }
 
 .button:hover {
-    background-color: rgb(113, 95, 156);
+    background-color: rgb(40, 41, 119);
 }
 
 .k-details a {

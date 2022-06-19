@@ -3,7 +3,8 @@
 {% block title %} search {% endblock %}
 
 {% block script %}
-<script src="..\static\main.js" defer></script>
+<script src="..\static\scripts\search.js" defer></script>
+<script src="..\static\scripts\settings.js" defer></script>
 {% endblock %}
 
 {% block body %}
@@ -11,7 +12,7 @@
 <form id="form" class="form-div" autocomplete="off" action="/search" method="get">
   <div class="overlay">
     <div class="searchbar">
-      <input type="text" id="user_input" onkeyup="newSearch({{ titles }})" class="input-field" name="input" placeholder="{{ title }}" kdrama-search />
+      <input type="text" id="user_input" onkeyup="searchTitles({{ titles }})" class="input-field" name="input" placeholder="{{ title }}" kdrama-search />
       <div class="rec-table">
         <table aria-describedby="table of recommended kdrama">
             <!-- headers (title, rank, score, similarity score)-->
@@ -24,7 +25,7 @@
             </tr>
 
             <!-- kdrama infos -->
-            {% for i in range(9) %}
+            {% for i in range(rec_list['title']|length) %}
             <tr>
               {% for col_name in rec_list %}
               <!-- don't inclue links-->
@@ -49,4 +50,5 @@
     </div>
   </div>
 </form>
+
 {% endblock %}

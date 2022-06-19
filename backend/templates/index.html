@@ -3,7 +3,8 @@
 {% block title %} home {% endblock %}
 
 {% block script %}
-<script src="..\static\main.js" defer></script>
+<script src="..\static\scripts\search.js" defer></script>
+<script src="..\static\scripts\settings.js" defer></script>
 {% endblock %}
 
 {% block body %}
@@ -12,12 +13,23 @@
 <form id="form" autocomplete="off" action="/search" method="get">
   <div class="overlay">
     <div class="searchbar">
-      <input type="text" id="user_input" onkeyup="newSearch({{ titles }})" class="input-field" name="input" placeholder="Pick your poison!" kdrama-search />
+      <input type="text" id="user_input" onkeyup="searchTitles({{ titles }})" class="input-field" name="input" placeholder="Pick your poison!" kdrama-search />
       
       <ul id='list'>
       </ul>
 
+    <div class="settings">
+      <select id="sortby" name="sort">
+        <option id="selected" value="sim score" selected>Sort by:</option>
+        <option value="rank">Rank</option>
+        <option value="score">Score</option>
+        <option value="sim score">Similarity Score</option>
+      </select>
     </div>
   </div>
+</div>
+
 </form>
+
+
 {% endblock %}

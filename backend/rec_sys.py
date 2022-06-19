@@ -82,7 +82,7 @@ def get_recommended_kdramas(target_kdrama_index, kdrama_similarities, kdramas_df
 
     # should set a max on how many recommended kdrama you can get (maybe like 25 or 50?)
     similarity_scores = pd.DataFrame(kdrama_similarities[target_kdrama_index], columns=["score"])
-    kdrama_indices = similarity_scores.sort_values("score", ascending=False)[1:rec_num].index # gets top 10 (we can change this)
+    kdrama_indices = similarity_scores.sort_values("score", ascending=False)[1:rec_num+1].index # gets top 10 (we can change this)
     return kdramas_df['title'].iloc[kdrama_indices].values # converts to array
 
 def get_score(og_name, rec_name, sim):
@@ -100,7 +100,7 @@ def find_similarity(matrix):
     """finds the similarity between this matrix's kdrama and everything else"""
     return cosine_similarity(matrix, matrix)
 
-def create_similarity_data(name):
+def create_similarity_data(name, rec_num):
     """creates a dictionary of arrays with the top 10 similar kdramas"""
     similarity_data = {
         "titles": [],
@@ -112,7 +112,7 @@ def create_similarity_data(name):
     }
 
     target_index = search_kdrama(name)
-    top_ten = get_recommended_kdramas(target_index, og_cos_sim(), df, 10)
+    top_ten = get_recommended_kdramas(target_index, og_cos_sim(), df, rec_num)
 
     for kdrama in top_ten:
         # adds this title to dictionary
@@ -127,10 +127,11 @@ def create_similarity_data(name):
     
     return similarity_data
 
-def get_top_rec_kdrama(name, sort_label):
+def get_top_rec_kdrama(name, sort_label, rec_num):
     """reorders the top recommended kdramas and converts to a dataframe"""
     fill_na()
-    data = create_similarity_data(name)
+    if (rec_num < 5): rec_num = 5
+    data = create_similarity_data(name, rec_num)
     new_df = pd.DataFrame(data)
     new_df['sim_score'] = new_df.sum(axis=1, numeric_only=True)
     new_df = new_df.sort_values("sim_score", ascending=False)
@@ -156,7 +157,8 @@ def get_top_rec_kdrama(name, sort_label):
 
     merged_df = pd.concat([full_df, sim_scores], axis=1, ignore_index=True)
     merged_df.columns = ['link', 'title', 'rank', 'score', 'sim score']
-    merged_df = merged_df.sort_values(sort_label, ascending=True)
+    merged_df = merged_df.sort_values(sort_label, ascending=False)
+    merged_df = merged_df.reset_index(drop=True)
 
     dicti = merged_df.to_dict()
     return dicti
