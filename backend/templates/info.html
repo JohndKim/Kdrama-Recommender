@@ -21,7 +21,11 @@
                 <li>Content Rating: {{ info['content_rating'] }}</li>
             </ul>
             <h4>Description</h4>
-            <p>{{ info['description'] }}...</p>
+            {% if word_count >= 71 %}
+                <p>{{ info['description'] }}...</p>
+            {% else %}
+                <p>{{ info['description'] }}</p>
+            {% endif %}
         </div>
         <div class="k-details">
             <h4>Details</h4>

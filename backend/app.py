@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, render_template, request
 
-from rec_sys import get_info, get_titles, get_top_rec_kdrama, kdrama_exists
+from rec_sys import get_info, get_titles, get_desc_word_count, get_top_rec_kdrama, kdrama_exists
 
 titles = get_titles()
 
@@ -40,8 +40,7 @@ def search():
         user_input = request.args.get("input")
         sort_by = request.args.get("sort")
         rec_num = request.args.get("num")
-        # rec_num = 15
-        # sort_by = "sim score"
+
         # checks if title is valid
         if kdrama_exists(user_input, titles) == False:
             return render_template('error.html', error="The kdrama you have entered does not exist 😤")
@@ -59,7 +58,11 @@ def info():
         return render_template('error.html', error="The kdrama you have entered does not exist 😤")
 
     info = get_info(user_input)
-    return render_template('info.html', info=info)
+
+    desc = info['description']
+    word_count = get_desc_word_count(desc)
+
+    return render_template('info.html', info=info, word_count=word_count)
     # get info on kdrama with this (input) title
 
 

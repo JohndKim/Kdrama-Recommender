@@ -39,6 +39,11 @@ def get_info(title):
         dicti[column] = remove_chars(dicti[column]) 
     return dicti
 
+def get_desc_word_count(desc):
+    word_list = desc.split(' ')
+    word_count = len(word_list)
+    return word_count
+
 def get_titles():
     np_titles = df['title'].to_numpy()
     title_list = np_titles.tolist()
@@ -123,6 +128,7 @@ def create_similarity_data(name, rec_num):
         for kdrama in k_list:
             if kdrama not in top_ten: top_ten.append(kdrama)
 
+    if name in top_ten: top_ten.remove(name)
 
     # for every kdrama, calculate weighted score and add to dictionary
     for kdrama in top_ten:
