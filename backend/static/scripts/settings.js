@@ -18,7 +18,7 @@ for (i = 0; i < l; i++) {
   /* For each element, create a new DIV that will contain the option list: */
   b = document.createElement('DIV');
   b.setAttribute('class', 'select-items select-hide');
-  if (i == l - 1) b.classList.add('rounded-bottom');
+  // if (i == l - 1) b.classList.add('rounded-bottom');
 
   for (j = 1; j < ll; j++) {
     /* For each option in the original select element,
@@ -85,22 +85,35 @@ function closeAllSelect(elmnt) {
       x[i].classList.add('select-hide');
     }
   }
-  document.querySelector('.select-selected').classList.remove('rounded-top');
+  // document.querySelector('.select-selected').classList.remove('rounded-top');
 }
 
 /* If the user clicks anywhere outside the select box,
 then close all select boxes: */
 document.addEventListener('click', closeAllSelect);
 
-var settingDiv = document.querySelector('.settings');
-var drop = settingDiv.querySelector('.select-selected');
-var ddrop = settingDiv.querySelector('.select-arrow-active');
-var newDrop = settingDiv.querySelector('.rounded-top');
-drop.classList.add('round-boi');
-drop.onclick = () => {
-  drop = settingDiv.querySelector('.select-arrow-active');
-  console.log('hi');
+// }
 
-  if (drop.classList.contains('rounded-top')) drop.classList.remove('rounded-top');
-  document.querySelector('.select-selected').classList.add('rounded-top');
+// var settingDiv = document.querySelector('.settings');
+// var drop = settingDiv.querySelector('.select-selected');
+// var ddrop = settingDiv.querySelector('.select-arrow-active');
+// var newDrop = settingDiv.querySelector('.rounded-top');
+// drop.classList.add('round-boi');
+// drop.onclick = () => {
+//   drop = settingDiv.querySelector('.select-arrow-active');
+//   console.log('hi');
+
+//   if (drop.classList.contains('rounded-top')) drop.classList.remove('rounded-top');
+//   document.querySelector('.select-selected').classList.add('rounded-top');
+// };
+
+const settings = document.querySelector('.settingbtn');
+const display = document.querySelector('.overlay');
+
+settings.onmouseover = () => {
+  settings.classList.add('fa-spin');
+};
+
+display.onmouseover = () => {
+  if (settings.classList.contains('fa-spin')) settings.classList.remove('fa-spin');
 };

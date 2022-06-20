@@ -76,9 +76,6 @@ def search_kdrama(kdrama_name):
 def get_recommended_kdramas(target_kdrama_index, kdrama_similarities, kdramas_df, rec_num):
     """returns the top (rec_num) recommended kdramas based on keywords, genres, actors, director, director
     and screenwriter (we recalculate their similarity score by using our own 'weights' :omg:)"""
-    if rec_num <= 1:
-        # return no kdramas
-        return False
 
     # should set a max on how many recommended kdrama you can get (maybe like 25 or 50?)
     similarity_scores = pd.DataFrame(kdrama_similarities[target_kdrama_index], columns=["score"])
@@ -112,8 +109,22 @@ def create_similarity_data(name, rec_num):
     }
 
     target_index = search_kdrama(name)
-    top_ten = get_recommended_kdramas(target_index, og_cos_sim(), df, rec_num)
+    top_ten = get_recommended_kdramas(target_index, og_cos_sim(), df, rec_num).tolist()
 
+    # gets the top 10 for each category
+
+
+    for label in label_weights.keys():
+        if label == "actors": break
+        vec = vectorize_kdrama(label)
+        sim = find_similarity(vec)
+        k_list = get_recommended_kdramas(target_index, sim, df, rec_num)
+
+        for kdrama in k_list:
+            if kdrama not in top_ten: top_ten.append(kdrama)
+
+
+    # for every kdrama, calculate weighted score and add to dictionary
     for kdrama in top_ten:
         # adds this title to dictionary
         similarity_data["titles"].append(kdrama)
@@ -130,18 +141,30 @@ def create_similarity_data(name, rec_num):
 def get_top_rec_kdrama(name, sort_label, rec_num):
     """reorders the top recommended kdramas and converts to a dataframe"""
     fill_na()
+
+    # if rec_num.isdigit() == False: rec_num = 10
+    rec_num = int(rec_num)
     if (rec_num < 5): rec_num = 5
+    if (rec_num > 20): rec_num = 20
+
+
+
     data = create_similarity_data(name, rec_num)
     new_df = pd.DataFrame(data)
     new_df['sim_score'] = new_df.sum(axis=1, numeric_only=True)
     new_df = new_df.sort_values("sim_score", ascending=False)
-    print(new_df)
+    # print(new_df)
     kdrama_list = new_df['titles'].values.tolist()
+    # kdrama_list = kdrama_list[:10]
 
     # singles out similarity scores, convert to percent and round to 1dp (e.g. 34.3%)
     sim_scores = new_df['sim_score'].reset_index(drop=True)
     sim_scores.loc[:,] *= 100
     sim_scores = sim_scores.round(decimals = 1)
+
+    # sim_scores = sim_scores.iloc[:10]
+    # print(kdrama_list)
+    # print(sim_scores)
 
     df = pd.read_csv(filename)
     fill_na()
@@ -157,8 +180,12 @@ def get_top_rec_kdrama(name, sort_label, rec_num):
 
     merged_df = pd.concat([full_df, sim_scores], axis=1, ignore_index=True)
     merged_df.columns = ['link', 'title', 'rank', 'score', 'sim score']
-    merged_df = merged_df.sort_values(sort_label, ascending=False)
+
+    if sort_label == "rank":
+        merged_df = merged_df.sort_values(sort_label, ascending=True)
+    else: merged_df = merged_df.sort_values(sort_label, ascending=False)
     merged_df = merged_df.reset_index(drop=True)
+    merged_df = merged_df.iloc[:rec_num]
 
     dicti = merged_df.to_dict()
     return dicti

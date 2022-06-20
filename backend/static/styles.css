@@ -71,7 +71,6 @@ th {
     font-size: inherit;
     cursor: pointer;
     padding: 0;
-
 }
 
 .dropdown.active>.dropbtn,
@@ -226,6 +225,39 @@ form {
     overflow-y: auto;
 }
 
+.settings-grid {
+    display: grid;
+    /* grid-template-rows: repeat(2, max-content); */
+    /* grid-auto-rows: minmax(100px, auto); */
+
+    grid-template-columns: repeat(1, max-content);
+    gap: .5rem;
+    padding: 5px;
+    padding-bottom: 10px;
+    margin-top: 5px;
+}
+
+.settingbtn {
+    background: none;
+    border: none;
+    text-decoration: none;
+    color: rgb(167, 167, 167);
+    font-family: inherit;
+    font-size: inherit;
+    cursor: pointer;
+    font-size: 30px !important;
+    padding: 0;
+}
+
+.dropdown.active>.settingbtn, .settingbtn:hover {
+    color:rgb(68, 121, 175);
+}
+
+.dropdown.active>.settingbtn+.dropdown-content {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
 
 .searchbar {
 
@@ -235,7 +267,7 @@ form {
     place-items: center;
 
     /* margin: 0; */
-    position: absolute;
+    /* position: absolute; */
     top: 20%;
 
 }
@@ -301,7 +333,7 @@ form {
   /* Style items (options): */
   .select-items {
     position: absolute;
-    background-color: rgb(120, 187, 255, 0.5);
+    background-color: rgb(68, 121, 175);
     top: 100%;
     left: 0;
     right: 0;

@@ -3,6 +3,9 @@
 {% block title %} home {% endblock %}
 
 {% block script %}
+<!-- icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <script src="..\static\scripts\search.js" defer></script>
 <script src="..\static\scripts\settings.js" defer></script>
 {% endblock %}
@@ -14,22 +17,41 @@
   <div class="overlay">
     <div class="searchbar">
       <input type="text" id="user_input" onkeyup="searchTitles({{ titles }})" class="input-field" name="input" placeholder="Pick your poison!" kdrama-search />
-      
       <ul id='list'>
       </ul>
-
-    <div class="settings">
-      <select id="sortby" name="sort">
-        <option id="selected" value="sim score" selected>Sort by:</option>
-        <option value="rank">Rank</option>
-        <option value="score">Score</option>
-        <option value="sim score">Similarity Score</option>
-      </select>
     </div>
-  </div>
-</div>
 
+  </div>
+
+  <div class="dropdown" data-dropdown>
+    <button class="settingbtn fa fa-gear" type="button" data-dropdown-button></button>
+      <div class="dropdown-content settings-grid">
+        <!-- sort recommendations by -->
+        <div class="settings">
+          <select id="sortby" name="sort">
+            <option id="selected" value="sim score" selected>Sort by:</option>
+            <option value="rank">Rank</option>
+            <option value="score">Score</option>
+            <option value="sim score">Similarity Score</option>
+          </select>
+        </div>
+        <!-- number of recommendations -->
+        <div class="settings">
+          <select id="rec_num" name="num">
+            <option id="selected" value="10" selected>Number of recommendations:</option>
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+          </select>
+        </div>
+
+      </div>
+  </div>
 </form>
+
+
+
 
 
 {% endblock %}

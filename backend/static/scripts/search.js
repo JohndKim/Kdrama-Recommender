@@ -30,7 +30,10 @@ function searchTitles(titles) {
     if (count == 5) break;
   }
   if (count > 1) item.classList.add('rounded-bottom');
-  if (count == 1) item.classList.add('round-boi');
+  if (count == 1) {
+    item.classList.remove('rounded-top');
+    item.classList.add('round-boi');
+  }
 }
 
 function select(element) {
