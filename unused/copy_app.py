@@ -2,8 +2,7 @@ from datetime import timedelta
 
 from flask import (Flask, flash, redirect, render_template, request, session,
                    url_for)
-from flask_mysqldb import MySQL
-
+from flask_sqlalchemy import SQLAlchemy
 from rec_sys import (get_desc_word_count, get_info, get_titles,
                      get_top_rec_kdrama, kdrama_exists)
 
@@ -13,12 +12,22 @@ app = Flask(__name__)
 app.secret_key = "some_secret_key"
 app.permanent_session_lifetime = timedelta(minutes=5)
 # users = name of the table we're using
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'P@55word'
-app.config['MYSQL_DB'] = 'login'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.sqlite3'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-mysql = MySQL(app)
+db = SQLAlchemy(app)
+
+class users(db.Model):
+    _id = db.Column("id", db.Integer, primary_key=True)
+    username = db.Column("username", db.String(100))
+    # password = db.Column("password", db.String(100))
+    email = db.Column("email", db.String(100))
+
+    def __init__(self, username, email):
+        self.username = username
+        self.email = email
+
+
 
 @app.route('/')
 def index():
@@ -39,17 +48,14 @@ def login():
         session["username"] = username
         session["password"] = password
 
-        cursor = mysql.connection.cursor()
-        cursor.execute("INSERT INTO users(username, password) VALUES(%s, %s)", (username, password))
-
-        # found_user = users.query.filter_by(username=username).first()
-        # # user exists
-        # if found_user:
-        #     session["email"] = found_user.email
-        # else:
-        #     usr = users(user, "")
-        #     db.session.add(usr)
-        #     db.session.commit()
+        found_user = users.query.filter_by(username=username).first()
+        # user exists
+        if found_user:
+            session["email"] = found_user.email
+        else:
+            usr = users(user, "")
+            db.session.add(usr)
+            db.session.commit()
 
 
         flash("Login Successful!")
@@ -76,10 +82,10 @@ def user():
             email = request.form["email"]
             session["email"] = email
 
-            # # change current user's email
-            # found_user = users.query.filter_by(username=username).first()
-            # found_user.email = email
-            # db.session.commit()
+            # change current user's email
+            found_user = users.query.filter_by(username=username).first()
+            found_user.email = email
+            db.session.commit()
 
             flash("Email was saved!")
         else: 
@@ -156,4 +162,5 @@ def info():
 
 # runs this app
 if __name__ == "__main__":
+    db.create_all()
     app.run(debug=True)

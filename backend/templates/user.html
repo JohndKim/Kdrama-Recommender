@@ -16,12 +16,11 @@
     {% endif %}
 {% endwith %}
 
-<div class="container">
-    <form action="#" method="POST">
-        <input type="text" placeholder="Username" name="username">
-        <input type="password" placeholder="Password" name="password">
-        <input class="button" type="submit" value="login">
-    </form>
-</div>
+<p>welcome {{username}}</p>
+
+<form action="#" method="POST">
+    <input type="email" name="email" placeholder="Enter Email" value="{{ email if email}}">
+    <input type="submit" name="submit">
+</form>
 
 {% endblock %}
