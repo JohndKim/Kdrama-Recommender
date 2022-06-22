@@ -3,6 +3,7 @@ from datetime import timedelta
 from flask import (Flask, flash, redirect, render_template, request, session,
                    url_for)
 from flask_mysqldb import MySQL
+from flask_sqlalchemy import SQLAlchemy
 
 from rec_sys import (get_desc_word_count, get_info, get_titles,
                      get_top_rec_kdrama, kdrama_exists)
@@ -13,12 +14,29 @@ app = Flask(__name__)
 app.secret_key = "some_secret_key"
 app.permanent_session_lifetime = timedelta(minutes=5)
 # users = name of the table we're using
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'P@55word'
-app.config['MYSQL_DB'] = 'login'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:PA55word@127.0.0.1:3306/kdrama_users'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-mysql = MySQL(app)
+string = "\@"
+db = SQLAlchemy(app)
+
+class users(db.Model):
+    _id = db.Column("id", db.Integer, primary_key=True)
+    username = db.Column("username", db.String(100))
+    password = db.Column("password", db.String(100))
+    email = db.Column("email", db.String(100))
+
+    def __init__(self, username, password, email):
+        self.username = username
+        self.password = password
+        self.email = email
+
+# app.config['MYSQL_HOST'] = 'localhost'
+# app.config['MYSQL_USER'] = 'root'
+# app.config['MYSQL_PASSWORD'] = 'P@55word'
+# app.config['MYSQL_DB'] = 'kdrama_users'
+
+# mysql = MySQL(app)
 
 @app.route('/')
 def index():
@@ -28,6 +46,10 @@ def index():
 def help():
     return render_template('help.html')
 
+@app.route("/view")
+def view():
+    return render_template("view.html", values=users.query.all())
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     # if login info entered
@@ -36,39 +58,83 @@ def login():
         username = request.form["username"]
         password = request.form["password"]
 
-        session["username"] = username
-        session["password"] = password
+        # cursor = mysql.connection.cursor()
+        # cursor.execute("INSERT INTO users(username, password) VALUES(%s, %s)", (username, password))
+        # mysql.connection.commit()
+        # cursor.close()
 
-        cursor = mysql.connection.cursor()
-        cursor.execute("INSERT INTO users(username, password) VALUES(%s, %s)", (username, password))
-
-        # found_user = users.query.filter_by(username=username).first()
-        # # user exists
-        # if found_user:
-        #     session["email"] = found_user.email
-        # else:
-        #     usr = users(user, "")
-        #     db.session.add(usr)
-        #     db.session.commit()
-
+        found_user = users.query.filter_by(username=username).first()
+        # if user exists
+        if found_user:
+            # check if username matches password
+            if found_user.password != password:
+                flash("Incorrect username or password")
+                return redirect(url_for("login"))
+            
+            session["username"] = username
+            session["password"] = password
+            session["email"] = found_user.email
+        # else create return to login
+        else:
+            flash("Incorrect username or password")
+            return redirect(url_for("login"))
 
         flash("Login Successful!")
-        return redirect(url_for("user"))
+        return redirect(url_for("profile"))
     
     # when accessing page
     else: 
-        # if already logged in, go to user page
-        if "password" in session:
+        # if already logged in, go to profile page
+        if "username" in session:
             flash("Already Logged In!", "info")
-            return redirect(url_for("user"))
+            return redirect(url_for("profile"))
         # else login page loaded
         return render_template("login.html")
 
-@app.route("/user", methods=["POST", "GET"])
-def user():
+@app.route("/signup", methods=['GET', 'POST'])
+def signup():
+    # if user info entered
+    if request.method == 'POST':
+        session.permanent = True
+
+        email = request.form["email"]
+        username = request.form["username"]
+        password = request.form["password"]
+
+        found_email = users.query.filter_by(email=email).first()
+        found_user = users.query.filter_by(username=username).first()
+        # if username already exists, redirect + flash message user exists
+        if found_user or found_email:
+            flash("Username/Email already exists")
+            return redirect(url_for("signup"))
+        # else create new user
+        else:
+            usr = users(username, password, email)
+            db.session.add(usr)
+            db.session.commit()
+
+        session["email"] = email
+        session["username"] = username
+        session["password"] = password
+
+        flash("Signup Successful!")
+        return redirect(url_for("profile"))
+    
+    # when accessing page
+    else: 
+        # if already logged in, go to profile page
+        if "username" in session:
+            flash("Already Logged In!", "info")
+            return redirect(url_for("profile"))
+        # else login page loaded
+        return render_template("signup.html")
+
+
+@app.route("/profile", methods=["POST", "GET"])
+def profile():
     email = None
 
-    # if logged in, else
+    # if logged in
     if "username" in session:
         username = session["username"]
 
@@ -76,17 +142,18 @@ def user():
             email = request.form["email"]
             session["email"] = email
 
-            # # change current user's email
-            # found_user = users.query.filter_by(username=username).first()
-            # found_user.email = email
-            # db.session.commit()
-
+            # change current user's email
+            found_user = users.query.filter_by(username=username).first()
+            found_user.email = email
+            db.session.commit()
             flash("Email was saved!")
+
         else: 
             if "email" in session:
                 email = session["email"]
 
-        return render_template("user.html", username=username, email=email)
+        return render_template("profile.html", username=username, email=email)
+    # else redirect to login page
     else:
         flash("You are not logged in!", "info")
         return redirect(url_for("login"))
@@ -154,6 +221,9 @@ def info():
     # get info on kdrama with this (input) title
 
 
+
 # runs this app
 if __name__ == "__main__":
+    db.create_all()
+    db.session.commit()
     app.run(debug=True)

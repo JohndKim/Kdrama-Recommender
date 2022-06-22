@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block title %} user {% endblock %}
+
+{% block script %}
+{% endblock %}
+
+{% block body %}
+
+<p>welcome {{username}}</p>
+
+<form action="#" method="POST">
+    <input type="email" name="email" placeholder="Enter Email" value="{{ email if email}}">
+    <input type="submit" name="submit" value="submit">
+</form>
+
+<a class="button" href="/logout">logout</a>
+
+{% endblock %}
