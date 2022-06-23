@@ -12,19 +12,19 @@
     <h3>Sign up</h3>
 
     <label class="signup-label" for="email">Email</label>
-    <input class="signup-input" type="email" placeholder="Email" name="email">
+    <input class="signup-input" type="email" placeholder="Email" name="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
 
     <label class="signup-label" for="username">Username</label>
-    <input class="signup-input" type="text" placeholder="Username" name="username">
+    <input class="signup-input" type="text" placeholder="Username" name="username" required pattern=".{3,}">
 
     <label class="signup-label" for="password">Password</label>
-    <input class="signup-input" type="password" placeholder="Password" name="password">
+    <input class="signup-input" type="password" placeholder="Password" name="password" required pattern=".{8,}">
 
     <!-- flashed messages -->
     {% with messages = get_flashed_messages() %}
       {% if messages%}
           {% for msg in messages %}
-              <p>{{msg}}</p>
+              <p class="sign-alert">{{msg}}</p>
           {% endfor %}
       {% endif %}
     {% endwith %}

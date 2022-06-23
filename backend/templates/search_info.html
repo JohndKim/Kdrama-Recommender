@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block title %} search kdrama info {% endblock %}
+
+{% block script %}
+<!-- icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<script src="..\static\scripts\search.js" defer></script>
+{% endblock %}
+
+{% block body %}
+
+<!-- SEARCH BAR -->
+<form id="form" autocomplete="off" action="/info" method="get">
+  <div class="overlay">
+    <div class="searchbar">
+      <input type="text" id="user_input" onkeyup="searchTitles({{ titles }})" class="input-field" name="input" placeholder="Pick your poison!" kdrama-search />
+      <ul id='list'>
+      </ul>
+    </div>
+
+  </div>
+</form>
+
+
+
+
+
+{% endblock %}

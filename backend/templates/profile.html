@@ -7,12 +7,18 @@
 
 {% block body %}
 
-<p>welcome {{username}}</p>
 
-<form action="#" method="POST">
-    <input type="email" name="email" placeholder="Enter Email" value="{{ email if email}}">
-    <input type="submit" name="submit" value="submit">
-</form>
+<div class="grid-center">
+    <div class="help-wrapper">
+        <p>welcome {{username}}</p>
+
+        <form action="#" method="POST">
+            <label>Change Email</label>
+            <input type="email" name="email" placeholder="Enter Email" value="{{ email if email}}">
+            <input type="submit" name="submit" value="submit">
+        </form>
+    </div>
+</div>
 
 <a class="button" href="/logout">logout</a>
 
