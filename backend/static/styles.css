@@ -859,7 +859,6 @@ form.signup-form *{
     margin: 0;
     box-sizing: border-box;
 
-    font-family: 'Poppins',sans-serif;
     color: #ffffff;
     letter-spacing: 0.5px;
     outline: none;
@@ -922,3 +921,27 @@ p.sign-alert {
     display: block;
     margin-top: 10px;
 }
+
+/* PROFILE PAGE */
+
+.profile-input {
+    display: block;
+    height: 50px;
+    width: 100%;
+    background-color: rgba(255,255,255,0.07);
+    outline: none;
+    border: none;
+    border-radius: 3px;
+    padding: 0 10px;
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+.profile-page .button {
+    cursor: pointer;
+    outline: none;
+    border: none;
+}
+
+

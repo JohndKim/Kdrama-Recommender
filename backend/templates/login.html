@@ -15,10 +15,10 @@
     <h3>Login</h3>
 
     <label class="login-label" for="username">Username</label>
-    <input class="login-input" type="text" placeholder="Username" name="username">
+    <input class="login-input" type="text" placeholder="Username" name="username" autocomplete="off" required pattern=".{3,}">
 
     <label class="login-label" for="password">Password</label>
-    <input class="login-input" type="password" placeholder="Password" name="password">
+    <input class="login-input" type="password" placeholder="Password" name="password" autocomplete="off" required pattern=".{8,}">
 
     <!-- flashed messages -->
     {% with messages = get_flashed_messages() %}

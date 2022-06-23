@@ -12,7 +12,7 @@ titles = get_titles()
 
 app = Flask(__name__)
 app.secret_key = "some_secret_key"
-app.permanent_session_lifetime = timedelta(minutes=5)
+app.permanent_session_lifetime = timedelta(days=30)
 # users = name of the table we're using
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:PA55word@127.0.0.1:3306/kdrama_users'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -116,7 +116,7 @@ def signup():
 
         session["email"] = email
         session["username"] = username
-        session["password"] = password
+        # session["password"] = password
 
         flash("Signup Successful!")
         return redirect(url_for("profile"))
@@ -140,15 +140,29 @@ def profile():
         username = session["username"]
 
         if request.method == "POST":
-            email = request.form["email"]
-            session["email"] = email
+            email = session["email"]
 
-            # change current user's email
-            found_user = users.query.filter_by(username=username).first()
-            found_user.email = email
-            db.session.commit()
-            flash("Email was saved!")
+            if 'email-submit' in request.form:
+                email = request.form["email"]
+                session["email"] = email
 
+                # change current user's email
+                found_user = users.query.filter_by(username=username).first()
+                found_user.email = email
+                db.session.commit()
+                flash("Email was saved!")
+            if 'password-submit' in request.form:
+                current_password = request.form["current-password"]
+                new_password = request.form["new-password"]
+
+                found_user = users.query.filter_by(username=username).first()
+
+                if current_password == found_user.password:
+                    found_user.password = new_password
+                    db.session.commit()
+                    flash("Password was saved!")
+                else:
+                    flash("Incorrect Password")
         else: 
             if "email" in session:
                 email = session["email"]

@@ -8,18 +8,37 @@
 {% block body %}
 
 
-<div class="grid-center">
+<div class="grid-center profile-page">
     <div class="help-wrapper">
-        <p>welcome {{username}}</p>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages%}
+                {% for msg in messages %}
+                    <p class="sign-alert">{{msg}}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <h2> {{username}} </h2>
+        <h3>Email: {{ email }}</h3>
 
         <form action="#" method="POST">
             <label>Change Email</label>
-            <input type="email" name="email" placeholder="Enter Email" value="{{ email if email}}">
-            <input type="submit" name="submit" value="submit">
+            <input class="profile-input" type="email" name="email" placeholder="Enter Email" autocomplete="off" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+            <input class="button"  type="submit" name="email-submit" value="submit">
         </form>
+
+        <form action="#" method="POST">
+            <label>Change Password</label>
+            <input class="profile-input" type="password" name="current-password" placeholder="Current Password" autocomplete="off">
+            <input class="profile-input" type="password" name="new-password" placeholder="New Password" autocomplete="off" required pattern=".{8,}">
+            <input class="button" type="submit" name="password-submit" value="submit">
+        </form>
+
+        <a class="button" href="/logout">logout</a>
+
     </div>
 </div>
 
-<a class="button" href="/logout">logout</a>
 
 {% endblock %}
