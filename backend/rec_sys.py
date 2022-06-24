@@ -50,6 +50,8 @@ def get_titles():
     return title_list
 
 def kdrama_exists(title, klist):
+    if title is None:
+        return False
     for kdrama in klist:
         if title.lower() == kdrama.lower(): return True
     return False
@@ -205,6 +207,8 @@ def get_top(name):
     """reorders the top recommended kdramas and converts to a dataframe"""
     fill_na()
 
+    titles_recs = []
+
     data = create_similarity_data(name, 20)
     new_df = pd.DataFrame(data)
     new_df['sim_score'] = new_df.sum(axis=1, numeric_only=True)
@@ -217,16 +221,54 @@ def get_top(name):
     sim_scores = new_df['sim_score'].reset_index(drop=True)
     sim_scores.loc[:,] *= 100
     sim_scores = sim_scores.round(decimals = 1)
+    sim_list = sim_scores.tolist()
 
+    if (sim_list[0] == 100):
+        titles_recs.append(kdrama_list[1:21])
+        titles_recs.append(sim_list[1:21])
+    else:
+        titles_recs.append(kdrama_list[:20])
+        titles_recs.append(sim_list[:20])
+
+    print(titles_recs)
+    return titles_recs
+
+def get_rec(title, sort_label, rec_num):
     
 
-    new_df.drop("keywords", axis=1, inplace=True)
-    new_df.drop("genres", axis=1, inplace=True)
-    new_df.drop("actors", axis=1, inplace=True)
-    new_df.drop("director", axis=1, inplace=True)
-    new_df.drop("screenwriter", axis=1, inplace=True)
-    
-    new_df = new_df.reset_index(drop=True)
-    new_df = new_df.iloc[:20]
-    dic = new_df.to_dict()
-    return dic
+    rec_file = 'csv/recs.csv'
+    rec_df = pd.read_csv(rec_file)
+
+    index = search_kdrama(title)
+    row = rec_df.loc[index]
+
+    recs = row['recommendations']
+    sims = row['similarity']
+    ranks = []
+    scores = []
+
+    for name in recs:
+        # get rank, score, and sim score
+        index = search_kdrama(name)
+        row = df.loc[index]
+        ranks.append(row['rank'])
+        scores.append(row['score'])
+
+    dictionary = {
+        "titles": recs,
+        "ranks": ranks,
+        "scores": scores,
+        "sim scores": sims
+    }
+
+    dict_df = pd.DataFrame(dictionary)
+
+    if sort_label == "rank":
+        dict_df = dict_df.sort_values(sort_label, ascending=True)
+    else: dict_df = dict_df.sort_values(sort_label, ascending=False)
+    dict_df = dict_df.reset_index(drop=True)
+    dict_df = dict_df.iloc[:rec_num]
+
+    dictionary = dict_df.to_dict()
+
+    return dictionary
