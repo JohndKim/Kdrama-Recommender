@@ -5,7 +5,7 @@ from flask import (Flask, flash, redirect, render_template, request, session,
 from flask_mysqldb import MySQL
 from flask_sqlalchemy import SQLAlchemy
 
-from rec_sys import (get_desc_word_count, get_info, get_titles,
+from rec_sys import (get_desc_word_count, get_info, get_rec, get_titles,
                      get_top_rec_kdrama, kdrama_exists)
 
 titles = get_titles()
@@ -136,50 +136,84 @@ def profile():
     email = None
 
     # if logged in
-    if "username" in session:
-        username = session["username"]
-
-        if request.method == "POST":
-            email = session["email"]
-
-            if 'email-submit' in request.form:
-                email = request.form["email"]
-                session["email"] = email
-
-                # change current user's email
-                found_user = users.query.filter_by(username=username).first()
-                found_user.email = email
-                db.session.commit()
-                flash("Email was saved!")
-            if 'password-submit' in request.form:
-                current_password = request.form["current-password"]
-                new_password = request.form["new-password"]
-
-                found_user = users.query.filter_by(username=username).first()
-
-                if current_password == found_user.password:
-                    found_user.password = new_password
-                    db.session.commit()
-                    flash("Password was saved!")
-                else:
-                    flash("Incorrect Password")
-        else: 
-            if "email" in session:
-                email = session["email"]
-
-        return render_template("profile.html", username=username, email=email)
-    # else redirect to login page
-    else:
+    if "username" not in session: 
         flash("You are not logged in!", "info")
         return redirect(url_for("login"))
+    
+    username = session["username"]
 
-    # error = None
-    # if request.method == 'POST':
-    #     if request.form['username'] != 'admin' or request.form['password'] != 'admin': 
-    #         error = 'Incorrect username or password.'
-    #     else:
-    #         return redirect(url_for('home'))
-    # return render_template('login.html', error=error)
+    
+
+    if request.method == "POST":
+        email = session["email"]
+
+        if 'email-submit' in request.form:
+            email = request.form["email"]
+            session["email"] = email
+
+            # change current user's email
+            found_user = users.query.filter_by(username=username).first()
+            found_user.email = email
+            db.session.commit()
+            flash("Email was saved!")
+        
+        if 'password-submit' in request.form:
+            current_password = request.form["current-password"]
+            new_password = request.form["new-password"]
+
+            found_user = users.query.filter_by(username=username).first()
+
+            if current_password == found_user.password:
+                found_user.password = new_password
+                db.session.commit()
+                flash("Password was saved!")
+            else:
+                flash("Incorrect Password")
+    else: 
+        if "email" in session:
+            email = session["email"]
+
+    return render_template("profile.html", username=username, email=email)
+    # else redirect to login page
+        
+
+    # # if logged in
+    # if "username" in session:
+    #     username = session["username"]
+
+    #     if request.method == "POST":
+    #         email = session["email"]
+
+    #         if 'email-submit' in request.form:
+    #             email = request.form["email"]
+    #             session["email"] = email
+
+    #             # change current user's email
+    #             found_user = users.query.filter_by(username=username).first()
+    #             found_user.email = email
+    #             db.session.commit()
+    #             flash("Email was saved!")
+    #         if 'password-submit' in request.form:
+    #             current_password = request.form["current-password"]
+    #             new_password = request.form["new-password"]
+
+    #             found_user = users.query.filter_by(username=username).first()
+
+    #             if current_password == found_user.password:
+    #                 found_user.password = new_password
+    #                 db.session.commit()
+    #                 flash("Password was saved!")
+    #             else:
+    #                 flash("Incorrect Password")
+    #     else: 
+    #         if "email" in session:
+    #             email = session["email"]
+
+    #     return render_template("profile.html", username=username, email=email)
+    # # else redirect to login page
+    # else:
+    #     flash("You are not logged in!", "info")
+    #     return redirect(url_for("login"))
 
 @app.route("/logout")
 def logout():
@@ -218,7 +252,7 @@ def search():
         # if sort_by != "rank" or "score" or "sim score":
         #     return render_template('index.html')
 
-        
+        # recommended_list = get_rec(user_input, sort_by, rec_num)
         recommended_list = get_top_rec_kdrama(user_input, sort_by, rec_num)
 
         # recommended_list = {'link': {0: 'https://mydramalist.com/951-3-leaf-clover', 1: 'https://mydramalist.com/59381-navillera', 2: 'https://mydramalist.com/7184-good-doctor', 3: 'https://mydramalist.com/17315-rickety-rackety-family', 4: 'https://mydramalist.com/30917-dazzling', 5: 'https://mydramalist.com/60409-uncle', 6: 'https://mydramalist.com/4518-panda-and-hedgehog', 7: 'https://mydramalist.com/9162-pluto-squad', 8: 'https://mydramalist.com/2822-air-city'}, 'title': {0: '3 Leaf Clover', 1: 'Navillera', 2: 'Good Doctor', 3: 'Rickety Rackety Family', 4: 'The Light in Your Eyes', 5: 'Uncle', 6: 'Panda and Hedgehog', 7: 'Pluto Squad', 8: 'Air City'}, 'rank': {0: 2272, 1: 13, 2: 176, 3: 2579, 4: 277, 5: 329, 6: 1165, 7: 1596, 8: 1233}, 'score': {0: 7.0, 1: 9.0, 2: 8.3, 3: 4.8, 4: 8.2, 5: 8.1, 6: 7.2, 7: 7.6, 8: 7.1}, 'sim_score': {0: 37.3, 1: 33.9, 2: 30.7, 3: 27.4, 4: 27.3, 5: 24.4, 6: 22.7, 7: 8.7, 8: 8.5}}

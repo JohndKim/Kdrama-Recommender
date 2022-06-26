@@ -9,11 +9,13 @@ body {
 /* RESPONSIVE FONT SIZES */
 
 p, h4 {
-    font-size: clamp(1.05rem, 0.9vw, 2rem); 
+    font-size: clamp(1.05rem, 0.95vw, 2rem); 
 }
 
 li, #list li a {
-    font-size: clamp(1.0rem, 1.3vw, 1.6rem); 
+    /* font-size: clamp(1.0rem, 1.1vw, 1.2rem);  */
+    font-size: clamp(1.05rem, 0.95vw, 2rem); 
+
     white-space: pre-line;
 }
 
@@ -350,10 +352,6 @@ form {
   }
 
 /* SEARCH RESULTS */
-
-#list {
-    /* display: none; */
-}
 
 #rec_list {
     display: block;
