@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block title %} view all users {% endblock %}
+
+{% block script %}
+{% endblock %}
+
+{% block body %}
+
+{% for item in values %}
+    <p>Name: {{item.username}}, Password: {{item.password}}, Email: {{item.email}}</p>
+{% endfor %}
+
+{% endblock %}
