@@ -533,7 +533,7 @@ a.media-button:hover {
     rgb(104, 144, 255) 
     );
     background-clip: text;
-    /* -webkit-background-clip: text; */
+    -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 

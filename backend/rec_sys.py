@@ -4,7 +4,7 @@ from sklearn.feature_extraction.text import \
 from sklearn.metrics.pairwise import \
     cosine_similarity  # finds similarity between vectors
 
-filename = 'csv\kdrama_data.csv'
+filename = 'kdrama-data/csv/kdrama_data.csv'
 # filename = r"C:\Users\John Kim\Desktop\kdrama_data.csv"
 
 label_weights = {
