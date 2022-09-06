@@ -2,7 +2,7 @@ from datetime import timedelta
 
 from flask import (Flask, flash, redirect, render_template, request, session,
                    url_for)
-from flask_mysqldb import MySQL
+# from flask_mysqldb import MySQL
 from flask_sqlalchemy import SQLAlchemy
 
 from rec_sys import (get_desc_word_count, get_info, get_rec, get_titles,
@@ -281,6 +281,6 @@ def info():
 
 # runs this app
 if __name__ == "__main__":
-    db.create_all()
-    db.session.commit()
+    # db.create_all()
+    # db.session.commit()
     app.run(debug=True)
